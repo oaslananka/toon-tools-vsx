@@ -20,14 +20,20 @@ defaults:
 
 jobs:
   ci:
-    name: CI (${{ matrix.os }})
+    name: CI (${{ matrix.check-name }})
     if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-2025, macos-15]
+        include:
+          - os: ubuntu-24.04
+            check-name: ubuntu-24.04
+          - os: windows-2025-vs2026
+            check-name: windows-2025
+          - os: macos-15
+            check-name: macos-15
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -42,7 +48,7 @@ jobs:
       - name: Enable pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@10.33.0 --activate
+          corepack prepare pnpm@10.34.0 --activate
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --config.ignore-scripts=true

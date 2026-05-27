@@ -3,6 +3,9 @@
 This handoff records the repository state checked before a maintainer release decision. It does not
 create a tag, GitHub Release, marketplace publish, or package registry publish.
 
+> Historical note: this document records the 1.0.0 release-readiness snapshot. Current runtime and
+> package-manager pins live in `docs/dependency-policy.md`.
+
 ## Scope
 
 - Repository: `oaslananka/toon-tools-vsx`
