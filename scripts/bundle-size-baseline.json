@@ -1,4 +1,4 @@
 {
-  "sizeBytes": 29036,
-  "note": "Run pnpm run update:bundle-size-baseline after an intentional bundle-size change."
+  "sizeBytes": 47137,
+  "note": "Baseline refreshed on 2026-05-28 after auditing webpack stats for the current production extension bundle. Run pnpm run update:bundle-size-baseline after an intentional bundle-size change."
 }
