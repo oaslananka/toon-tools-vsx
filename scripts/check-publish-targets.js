@@ -8,7 +8,7 @@ const defaultTargetVersion = readTargetVersion(process.argv.slice(2), pkg.versio
 const defaultExtensionId = `${pkg.publisher}.${pkg.name}`;
 
 function readTargetVersion(argv, fallbackVersion) {
-  const positionalArgs = argv.filter((arg) => arg !== '--');
+  const positionalArgs = argv.filter((arg) => !arg.startsWith('-'));
   return positionalArgs[0] || fallbackVersion;
 }
 

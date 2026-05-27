@@ -26,6 +26,7 @@ describe('check-publish-targets script helpers', () => {
 
   it('ignores the npm argument separator when reading a target version', () => {
     expect(readTargetVersion(['--', '1.0.1'], '1.0.0')).toBe('1.0.1');
+    expect(readTargetVersion(['--dry-run', '1.0.1'], '1.0.0')).toBe('1.0.1');
     expect(readTargetVersion([], '1.0.0')).toBe('1.0.0');
   });
 
