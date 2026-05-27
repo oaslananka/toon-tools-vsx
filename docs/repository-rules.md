@@ -55,7 +55,8 @@ After applying the ruleset, verify the live repository state with:
 ```powershell
 gh api /repos/oaslananka/toon-tools-vsx/rulesets --jq '.[] | {name,target,enforcement}'
 gh api /repos/oaslananka/toon-tools-vsx/branches/main/protection
-gh repo view --json mergeCommitAllowed,squashMergeAllowed,rebaseMergeAllowed,deleteBranchOnMerge,autoMergeAllowed
+gh repo view --json mergeCommitAllowed,squashMergeAllowed,rebaseMergeAllowed,deleteBranchOnMerge
+gh api /repos/oaslananka/toon-tools-vsx --jq '{allow_merge_commit,allow_squash_merge,allow_rebase_merge,delete_branch_on_merge,allow_auto_merge}'
 ```
 
 The branch protection endpoint should report that branch protection is disabled when the repository

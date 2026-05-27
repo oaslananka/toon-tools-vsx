@@ -245,6 +245,7 @@ else {
   squash_merge_allowed   = $repositoryResult.allow_squash_merge
   rebase_merge_allowed   = $repositoryResult.allow_rebase_merge
   delete_branch_on_merge = $repositoryResult.delete_branch_on_merge
+  auto_merge_allowed     = $repositoryResult.allow_auto_merge
   ruleset                = [ordered] @{
     id                 = $rulesetResult.id
     name               = $rulesetResult.name
