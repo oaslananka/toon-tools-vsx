@@ -1,0 +1,77 @@
+name: Workflow Security
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+  schedule:
+    - cron: '17 5 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  actionlint:
+    name: actionlint
+    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: '1.25.x'
+
+      - name: Install actionlint
+        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+
+      - name: Run actionlint
+        run: |
+          "$(go env GOPATH)/bin/actionlint" -color
+
+  zizmor:
+    name: zizmor
+    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      # Required to upload zizmor SARIF results on non-PR runs.
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install zizmor
+        run: |
+          python3 -m pip install --user zizmor==1.24.1
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run zizmor
+        run: zizmor --format sarif . > zizmor.sarif
+
+      - name: Upload SARIF
+        if: ${{ always() && github.event_name != 'pull_request' && hashFiles('zizmor.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba # v4.35.5
+        with:
+          sarif_file: zizmor.sarif

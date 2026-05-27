@@ -1,0 +1,138 @@
+.toon-shell {
+  display: grid;
+  gap: 14px;
+  min-width: 320px;
+}
+
+.toon-toolbar {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  flex-wrap: wrap;
+}
+
+.toon-control {
+  display: grid;
+  gap: 4px;
+  min-width: 160px;
+  color: var(--vscode-descriptionForeground);
+  font-size: 0.92em;
+}
+
+.toon-control-grow {
+  flex: 1 1 220px;
+}
+
+.toon-select,
+.toon-filter {
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 8px;
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  outline: none;
+}
+
+.toon-select:focus,
+.toon-filter:focus,
+.toon-btn:focus {
+  border-color: var(--vscode-focusBorder);
+}
+
+.toon-btn {
+  min-height: 30px;
+  padding: 4px 12px;
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+  border: 1px solid var(--vscode-button-border, transparent);
+  cursor: pointer;
+}
+
+.toon-btn:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.toon-summary {
+  color: var(--vscode-descriptionForeground);
+}
+
+.toon-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--vscode-panel-border);
+}
+
+.toon-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--vscode-editor-background);
+}
+
+.toon-th,
+.toon-td {
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.toon-th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0;
+  color: var(--vscode-foreground);
+  background: var(--vscode-sideBar-background);
+  border-bottom-color: var(--vscode-focusBorder);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toon-sort-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 9px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.toon-sort-button:hover,
+.toon-sort-button:focus-visible {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.toon-sort-button:focus-visible {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.toon-sort-indicator {
+  flex: 0 0 auto;
+}
+
+.toon-td {
+  color: var(--vscode-editor-foreground);
+}
+
+.toon-table tbody tr:nth-child(even) {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.toon-empty {
+  padding: 16px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.toon-th:focus-visible {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: -2px;
+}

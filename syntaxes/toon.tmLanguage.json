@@ -1,0 +1,66 @@
+{
+  "scopeName": "source.toon",
+  "patterns": [{ "include": "#comment" }, { "include": "#header" }, { "include": "#row" }],
+  "repository": {
+    "comment": {
+      "name": "comment.line.number-sign.toon",
+      "match": "^\\s*#.*$"
+    },
+    "header": {
+      "name": "meta.block.header.toon",
+      "begin": "^\\s*([A-Za-z_][A-Za-z0-9_]*)(\\[)(\\d+)(\\])(\\{)",
+      "beginCaptures": {
+        "1": { "name": "entity.name.section.toon" },
+        "2": { "name": "punctuation.definition.bracket.square.begin.toon" },
+        "3": { "name": "constant.numeric.toon" },
+        "4": { "name": "punctuation.definition.bracket.square.end.toon" },
+        "5": { "name": "punctuation.definition.brace.begin.toon" }
+      },
+      "end": "(\\})(:)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.brace.end.toon" },
+        "2": { "name": "punctuation.definition.separator.toon" }
+      },
+      "patterns": [
+        {
+          "name": "variable.other.member.toon",
+          "match": "[A-Za-z_][A-Za-z0-9_]*"
+        },
+        {
+          "name": "punctuation.separator.comma.toon",
+          "match": ","
+        }
+      ]
+    },
+    "row": {
+      "name": "meta.row.toon",
+      "begin": "^\\s+",
+      "end": "$",
+      "patterns": [
+        {
+          "name": "string.quoted.double.toon",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.toon",
+              "match": "\"\""
+            }
+          ]
+        },
+        {
+          "name": "meta.empty-value.toon",
+          "match": "(^\\s*|,)(\\s*)(?=,|$)",
+          "captures": {
+            "1": { "name": "punctuation.separator.comma.toon" },
+            "2": { "name": "constant.language.null.toon" }
+          }
+        },
+        {
+          "name": "punctuation.separator.comma.toon",
+          "match": ","
+        }
+      ]
+    }
+  }
+}

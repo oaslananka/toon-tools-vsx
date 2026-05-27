@@ -1,0 +1,94 @@
+name: Bug report
+description: Report incorrect behavior in the VS Code extension.
+title: 'fix: '
+labels: [source]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for reproducible extension behavior issues.
+        Do not include secrets, tokens, private files, or private logs.
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: The installed toon-tools-vsx version.
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: vscode-version
+    attributes:
+      label: VS Code version
+      description: Copy from Help > About or `code --version`.
+      placeholder: 1.121.0
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Affected area
+      options:
+        - Parser
+        - Formatter
+        - Linter
+        - Completion
+        - Hover
+        - Conversion command
+        - Table viewer webview
+        - Size analyzer webview
+        - Packaging or installation
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: List the smallest steps or sample `.toon` content that reproduces the issue.
+      placeholder: |
+        1. Open this `.toon` content...
+        2. Run this command...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe the result you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Describe what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or diagnostics
+      description: Include relevant output after removing secrets and private paths.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed secrets, tokens, private file content, and private paths.
+          required: true
+        - label: I tested with the latest available extension version.
+          required: true

@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "pnpm",
+  "plugins": ["@stryker-mutator/vitest-runner", "@stryker-mutator/typescript-checker"],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts",
+    "related": true
+  },
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.test.json",
+  "coverageAnalysis": "perTest",
+  "mutate": [
+    "src/parser/toonParser.ts",
+    "src/convert/codec.ts",
+    "src/format/toonFormatter.ts",
+    "src/lint/toonLinter.ts"
+  ],
+  "reporters": ["clear-text", "progress", "html", "json"],
+  "ignorePatterns": ["coverage/**", "dist/**", "out/**", "reports/**", ".vscode-test/**", "*.vsix"],
+  "thresholds": {
+    "high": 85,
+    "low": 80,
+    "break": 80
+  }
+}

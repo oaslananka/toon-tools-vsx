@@ -1,0 +1,10 @@
+[[allowlists]]
+description = "Generated local dependency, build, coverage, package, and VS Code test artifacts"
+paths = [
+  '''^node_modules/''',
+  '''^dist/''',
+  '''^out/''',
+  '''^coverage/''',
+  '''^\.vscode-test/''',
+  '''.*\.vsix$''',
+]

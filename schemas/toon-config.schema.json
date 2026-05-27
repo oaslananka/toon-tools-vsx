@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/oaslananka/toon-tools-vsx/blob/main/schemas/toon-config.schema.json",
+  "title": "TOON Configuration",
+  "description": "Configuration for .toonrc files. Settings here mirror the toon.* VS Code settings.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "TOON configuration schema version.",
+      "default": "1.0"
+    },
+    "defaultBlockName": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+      "default": "data",
+      "description": "Default block name used for JSON-to-TOON conversion when the root is an array."
+    },
+    "indentWidth": {
+      "type": "integer",
+      "enum": [2, 4],
+      "default": 2,
+      "description": "Number of spaces for row indentation in formatted output."
+    },
+    "fieldSpacing": {
+      "type": "string",
+      "enum": ["compact", "spaced"],
+      "default": "compact",
+      "description": "Comma spacing style in header field lists. 'compact': no spaces. 'spaced': space after comma."
+    },
+    "linter": {
+      "type": "object",
+      "description": "Linting configuration.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time TOON linting."
+        },
+        "debounceMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000,
+          "default": 300,
+          "description": "Debounce delay in milliseconds for linting on document changes."
+        }
+      },
+      "additionalProperties": false
+    },
+    "conversion": {
+      "type": "object",
+      "description": "Conversion behavior.",
+      "properties": {
+        "toJsonValueMode": {
+          "type": "string",
+          "enum": ["strings", "typed"],
+          "default": "strings",
+          "description": "TOON-to-JSON value mode. 'strings': all values as strings. 'typed': infer numbers, booleans, null."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

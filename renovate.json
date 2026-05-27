@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases"
+  ],
+  "timezone": "Europe/Istanbul",
+  "labels": ["dependencies"],
+  "enabledManagers": ["npm", "github-actions"],
+  "rangeStrategy": "pin",
+  "packageRules": [
+    { "matchManagers": ["npm"], "rangeStrategy": "pin", "automerge": false },
+    {
+      "matchPackageNames": ["@types/vscode"],
+      "allowedVersions": "<=1.99.0",
+      "description": "Keep @types/vscode pinned until engines.vscode is intentionally raised."
+    },
+    { "matchManagers": ["github-actions"], "groupName": "github-actions", "automerge": false }
+  ],
+  "lockFileMaintenance": { "enabled": true, "schedule": ["before 6am on monday"] }
+}

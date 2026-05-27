@@ -1,0 +1,9 @@
+{
+  "release-type": "node",
+  "packages": {
+    ".": {
+      "package-name": "oaslananka.toon-tools-vsx",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}

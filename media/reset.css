@@ -1,0 +1,19 @@
+/* VS Code webview reset - use var(--vscode-*) tokens for all colors */
+html {
+  box-sizing: border-box;
+  font-size: var(--vscode-font-size);
+  font-family: var(--vscode-font-family);
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-editor-background);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+}

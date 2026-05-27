@@ -1,0 +1,57 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:00'
+      timezone: Europe/Istanbul
+    labels: [dependencies]
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+    groups:
+      node-tooling:
+        patterns:
+          - '@typescript-eslint/*'
+          - '@types/*'
+          - eslint
+          - jest
+          - ts-jest
+          - typescript
+          - webpack
+          - webpack-cli
+      vscode-publishing:
+        patterns:
+          - '@vscode/*'
+          - ovsx
+    ignore:
+      - dependency-name: '@types/vscode'
+        update-types: [version-update:semver-major, version-update:semver-minor]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+  - package-ecosystem: github-actions
+    directory: /
+    commit-message:
+      prefix: ci
+      include: scope
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:15'
+      timezone: Europe/Istanbul
+    labels: [dependencies]
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ['*']

@@ -1,0 +1,40 @@
+{
+  "TOON Comment": {
+    "prefix": "toon-comment",
+    "body": ["# ${1:comment}"],
+    "description": "TOON comment line",
+  },
+  "Basic TOON Table": {
+    "prefix": "toon-table",
+    "body": ["${1:name}[${2:count}]{${3:field1},${4:field2}}:", "  ${5:value1},${6:value2}"],
+    "description": "Basic TOON table template",
+  },
+  "TOON Block With Three Fields": {
+    "prefix": "toon-block3",
+    "body": [
+      "${1:name}[${2:count}]{${3:field1},${4:field2},${5:field3}}:",
+      "  ${6:value1},${7:value2},${8:value3}",
+    ],
+    "description": "TOON block skeleton with three fields",
+  },
+  "TOON Block With Five Fields": {
+    "prefix": "toon-block5",
+    "body": [
+      "${1:name}[${2:count}]{${3:field1},${4:field2},${5:field3},${6:field4},${7:field5}}:",
+      "  ${8:value1},${9:value2},${10:value3},${11:value4},${12:value5}",
+    ],
+    "description": "TOON block skeleton with five fields",
+  },
+  "TOON Config": {
+    "prefix": "toon-config",
+    "body": [
+      "{",
+      "  \"version\": \"${1:1.0}\",",
+      "  \"defaultBlockName\": \"${2:data}\",",
+      "  \"indentWidth\": ${3|2,4|},",
+      "  \"fieldSpacing\": \"${4|compact,spaced|}\"",
+      "}",
+    ],
+    "description": "Sample .toonrc configuration",
+  },
+}

@@ -1,0 +1,326 @@
+{
+  "name": "toon-tools-vsx",
+  "displayName": "TOON Tools VSX",
+  "publisher": "oaslananka",
+  "version": "1.0.0",
+  "description": "TOON format support: syntax highlighting, formatter, linter, hover, inlay hints, rename, JSON-to-TOON conversion, table viewer, and token-size analyzer.",
+  "icon": "images/toon-tools-icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18.0.0",
+    "pnpm": ">=10.33.0"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Linters",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "toon",
+    "token-oriented object notation",
+    "tabular data",
+    "tabular format",
+    "data format",
+    "formatter",
+    "linter",
+    "json converter",
+    "csv export",
+    "table viewer",
+    "syntax highlighting",
+    "language support",
+    "vscode-extension"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oaslananka/toon-tools-vsx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oaslananka/toon-tools-vsx/issues"
+  },
+  "homepage": "https://github.com/oaslananka/toon-tools-vsx#readme",
+  "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Linting and formatting work in untrusted workspaces. Conversion commands require a trusted workspace.",
+      "restrictedConfigurations": []
+    }
+  },
+  "activationEvents": [
+    "onLanguage:toon",
+    "onCommand:toon.convertJsonToToon",
+    "onCommand:toon.convertToonToJson",
+    "onCommand:toon.openJsonPreview",
+    "onCommand:toon.openToonPreview",
+    "onCommand:toon.openTableViewer",
+    "onCommand:toon.analyzeSizeTokens",
+    "onCommand:toon.exportCsv"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "toon",
+        "aliases": [
+          "TOON",
+          "toon"
+        ],
+        "extensions": [
+          ".toon"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/toon-file-light.svg",
+          "dark": "./icons/toon-file-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "toon",
+        "scopeName": "source.toon",
+        "path": "./syntaxes/toon.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "toon",
+        "path": "./snippets/toon.code-snippets"
+      }
+    ],
+    "commands": [
+      {
+        "command": "toon.convertJsonToToon",
+        "title": "TOON: Convert JSON to TOON"
+      },
+      {
+        "command": "toon.convertToonToJson",
+        "title": "TOON: Convert TOON to JSON"
+      },
+      {
+        "command": "toon.openJsonPreview",
+        "title": "TOON: Open JSON Preview (side)"
+      },
+      {
+        "command": "toon.openToonPreview",
+        "title": "TOON: Open TOON Preview (side)"
+      },
+      {
+        "command": "toon.openTableViewer",
+        "title": "TOON: Open Table Viewer"
+      },
+      {
+        "command": "toon.analyzeSizeTokens",
+        "title": "TOON: Analyze Size / Tokens"
+      },
+      {
+        "command": "toon.exportCsv",
+        "title": "TOON: Export Block as CSV"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == toon",
+          "command": "toon.openTableViewer",
+          "group": "toon@1"
+        },
+        {
+          "when": "resourceLangId == toon",
+          "command": "toon.analyzeSizeTokens",
+          "group": "toon@2"
+        },
+        {
+          "when": "resourceLangId == toon",
+          "command": "toon.exportCsv",
+          "group": "toon@3"
+        },
+        {
+          "when": "resourceLangId == toon",
+          "command": "toon.convertToonToJson",
+          "group": "toon@4"
+        },
+        {
+          "when": "resourceLangId == json",
+          "command": "toon.convertJsonToToon",
+          "group": "toon@1"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "toonToolsExplorer",
+          "title": "TOON",
+          "icon": "icons/toon-activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "toonToolsExplorer": [
+        {
+          "id": "toonToolsView",
+          "name": "Explorer",
+          "icon": "icons/toon-activitybar.svg",
+          "contextualTitle": "TOON Explorer"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TOON Tools",
+      "properties": {
+        "toon.linter.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time TOON linting."
+        },
+        "toon.linter.debounceMs": {
+          "type": "number",
+          "default": 300,
+          "minimum": 0,
+          "maximum": 5000,
+          "description": "Debounce delay (ms) for linting on change."
+        },
+        "toon.formatter.indentWidth": {
+          "type": "number",
+          "default": 2,
+          "enum": [
+            2,
+            4
+          ],
+          "description": "Number of spaces for row indentation."
+        },
+        "toon.formatter.fieldSpacing": {
+          "type": "string",
+          "default": "compact",
+          "enum": [
+            "compact",
+            "spaced"
+          ],
+          "enumDescriptions": [
+            "No spaces after commas: field1,field2",
+            "Space after commas: field1, field2"
+          ],
+          "description": "Comma spacing style in header fields."
+        },
+        "toon.conversion.toJsonValueMode": {
+          "type": "string",
+          "default": "strings",
+          "enum": [
+            "strings",
+            "typed"
+          ],
+          "enumDescriptions": [
+            "Keep every present TOON value as a string; missing fields become null.",
+            "Infer unquoted JSON-style primitives: numbers, booleans, and null."
+          ],
+          "description": "Value conversion mode for the TOON to JSON command."
+        },
+        "toon.inlayHints.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show field-name inlay hints in data rows."
+        },
+        "toon.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show TOON block count in the status bar."
+        }
+      }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": ".toonrc",
+        "url": "./schemas/toon-config.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "prepare": "husky",
+    "build": "webpack --mode production",
+    "build:prod": "pnpm run build",
+    "watch": "webpack --mode development --watch",
+    "format": "prettier --ignore-unknown --write .",
+    "format:check": "prettier --ignore-unknown --check .",
+    "lint": "eslint src test scripts --ext .ts,.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "audit:ci": "pnpm audit --audit-level high",
+    "check:staged": "lint-staged",
+    "check:bundle-size": "node scripts/check-bundle-size.js",
+    "update:bundle-size-baseline": "pnpm run build && node scripts/update-bundle-size-baseline.js",
+    "check:licenses": "node scripts/check-dependency-licenses.js",
+    "check:workspace-trust": "node scripts/check-untrusted-workspace.js",
+    "check:publish-targets": "node scripts/check-publish-targets.js",
+    "check:release-assets": "node scripts/verify-release-assets.js",
+    "check:package-contents": "node scripts/check-package-contents.js",
+    "check:ci": "pnpm run audit:ci && pnpm run check:licenses && pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run check:workspace-trust && pnpm run test:unit:coverage && pnpm run test:perf && pnpm run compile-tests && pnpm run test:integration && pnpm run build && pnpm run package && pnpm run check:package-contents && pnpm run check:bundle-size",
+    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test:unit && pnpm run build",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "test:unit": "vitest run",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:unit:property": "vitest run test/unit/parser.property.test.ts --coverage.enabled=false",
+    "test:perf": "pnpm run compile-tests && node scripts/check-parser-performance.js",
+    "test:mutation": "stryker run",
+    "test:integration": "pnpm run build && pnpm run compile-tests && node ./out/test/integration/runTest.js",
+    "package": "pnpm run build && vsce package --no-dependencies",
+    "package:ls": "vsce ls --tree --no-dependencies"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "overrides": {
+      "diff": "9.0.0",
+      "fast-uri": "3.1.2",
+      "serialize-javascript": "7.0.5",
+      "tmp": "^0.2.6",
+      "qs": "^6.15.2"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.0.1",
+    "@commitlint/config-conventional": "21.0.1",
+    "@eslint/js": "10.0.1",
+    "@go-task/cli": "3.51.1",
+    "@stryker-mutator/core": "9.6.1",
+    "@stryker-mutator/typescript-checker": "9.6.1",
+    "@stryker-mutator/vitest-runner": "9.6.1",
+    "@types/mocha": "10.0.10",
+    "@types/node": "25.9.1",
+    "@types/vscode": "1.90.0",
+    "@typescript-eslint/eslint-plugin": "8.59.4",
+    "@typescript-eslint/parser": "8.59.4",
+    "@vitest/coverage-v8": "4.1.7",
+    "@vscode/test-electron": "2.5.2",
+    "@vscode/vsce": "3.9.1",
+    "eslint": "10.4.0",
+    "fast-check": "4.8.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.0.5",
+    "mocha": "11.7.6",
+    "ovsx": "0.10.12",
+    "prettier": "3.8.3",
+    "ts-loader": "9.5.7",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7",
+    "webpack": "5.107.1",
+    "webpack-cli": "7.0.2"
+  },
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "qna": "marketplace",
+  "sponsor": {
+    "url": "https://github.com/sponsors/oaslananka"
+  }
+}

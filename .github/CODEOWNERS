@@ -1,0 +1,9 @@
+* @oaslananka
+
+/.github/ @oaslananka
+/release-please-config.json @oaslananka
+/.release-please-manifest.json @oaslananka
+/package.json @oaslananka
+/pnpm-lock.yaml @oaslananka
+/SECURITY.md @oaslananka
+/src/ @oaslananka

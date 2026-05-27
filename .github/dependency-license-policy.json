@@ -1,0 +1,171 @@
+{
+  "allowedLicenses": [
+    "0BSD",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BlueOak-1.0.0",
+    "CC0-1.0",
+    "ISC",
+    "MIT",
+    "Python-2.0",
+    "Zlib"
+  ],
+  "packageExceptions": [
+    {
+      "name": "@azu/style-format",
+      "license": "WTFPL",
+      "reason": "Transitive text-formatting utility used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing helper used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-alpine-arm64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-alpine-x64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-darwin-arm64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-darwin-x64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-linux-arm",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-linux-arm64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-linux-x64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-win32-arm64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "@vscode/vsce-sign-win32-x64",
+      "license": "Unknown",
+      "reason": "Microsoft VS Code Marketplace signing binary used by packaging tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "binaryextensions",
+      "license": "Artistic-2.0",
+      "reason": "Transitive file-type metadata package used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "editions",
+      "license": "Artistic-2.0",
+      "reason": "Transitive package metadata helper used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "istextorbinary",
+      "license": "Artistic-2.0",
+      "reason": "Transitive file-type helper used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "textextensions",
+      "license": "Artistic-2.0",
+      "reason": "Transitive file-type metadata package used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "version-range",
+      "license": "Artistic-2.0",
+      "reason": "Transitive version helper used by development tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "caniuse-lite",
+      "license": "CC-BY-4.0",
+      "reason": "Browser compatibility data used by build tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss",
+      "license": "MPL-2.0",
+      "reason": "Transitive CSS parser used by Vite/Vitest test tooling; not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-android-arm64",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-darwin-arm64",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-darwin-x64",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-freebsd-x64",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-linux-arm64-gnu",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-linux-arm64-musl",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-linux-x64-gnu",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-linux-x64-musl",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-win32-arm64-msvc",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "lightningcss-win32-x64-msvc",
+      "license": "MPL-2.0",
+      "reason": "Platform binary package for the Vite/Vitest CSS parser; used only by test tooling and not bundled into the extension artifact."
+    },
+    {
+      "name": "ovsx",
+      "license": "EPL-2.0",
+      "reason": "Open VSX publishing CLI used only in release automation; not bundled into the extension artifact."
+    },
+    {
+      "name": "spdx-exceptions",
+      "license": "CC-BY-3.0",
+      "reason": "SPDX exception data used by license metadata tooling; not bundled into the extension artifact."
+    }
+  ]
+}

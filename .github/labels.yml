@@ -1,0 +1,30 @@
+- name: dependencies
+  color: '0366d6'
+  description: Dependency updates
+- name: documentation
+  color: '0075ca'
+  description: Documentation-only changes
+- name: ci
+  color: '5319e7'
+  description: CI/CD and automation
+- name: source
+  color: '0e8a16'
+  description: Extension source changes
+- name: tests
+  color: 'fbca04'
+  description: Test coverage changes
+- name: size/XS
+  color: 'c2e0c6'
+  description: Extra-small pull request
+- name: size/S
+  color: 'c2e0c6'
+  description: Small pull request
+- name: size/M
+  color: 'fef2c0'
+  description: Medium pull request
+- name: size/L
+  color: 'f9d0c4'
+  description: Large pull request
+- name: size/XL
+  color: 'd93f0b'
+  description: Extra-large pull request

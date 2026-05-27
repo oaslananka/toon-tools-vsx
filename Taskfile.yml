@@ -1,0 +1,69 @@
+version: '3'
+
+tasks:
+  install:
+    desc: Deterministic dependency install
+    cmds: [pnpm install --frozen-lockfile]
+
+  format:check:
+    desc: Check formatting
+    cmds: [pnpm run format:check]
+
+  format:fix:
+    desc: Auto-fix formatting
+    cmds: [pnpm run format]
+
+  lint:
+    desc: ESLint + format check
+    cmds:
+      - task: format:check
+      - pnpm run lint
+
+  typecheck:
+    desc: TypeScript type-check
+    cmds: [pnpm run typecheck]
+
+  test:unit:
+    desc: Run unit tests
+    cmds: [pnpm run test:unit]
+
+  test:unit:coverage:
+    desc: Unit tests with coverage
+    cmds: [pnpm run test:unit:coverage]
+
+  test:integration:
+    desc: VS Code integration tests
+    cmds: [pnpm run test:integration]
+
+  build:
+    desc: Production webpack build
+    cmds: [pnpm run build]
+
+  package:
+    desc: Package VSIX
+    cmds: [pnpm run package]
+
+  audit:ci:
+    desc: Security audit (high+)
+    cmds: [pnpm run audit:ci]
+
+  pre-push:
+    desc: Local pre-push gate
+    cmds:
+      - task: lint
+      - task: typecheck
+      - task: test:unit
+      - task: audit:ci
+
+  ci:
+    desc: Full CI pipeline
+    cmds:
+      - task: audit:ci
+      - task: lint
+      - task: typecheck
+      - pnpm run check:workspace-trust
+      - task: test:unit:coverage
+      - task: test:integration
+      - task: build
+      - task: package
+      - pnpm run check:bundle-size

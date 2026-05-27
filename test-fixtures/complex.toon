@@ -1,0 +1,9 @@
+# Multi-block TOON fixture
+users[3]{id,name,role}:
+  1,Alice,admin
+  2,"Bob, Jr.",user
+  3,Charlie,user
+
+projects[2]{id,title,owner}:
+  p1,"TOON Tools",1
+  p2,"Comma ""Safe"" Data",2

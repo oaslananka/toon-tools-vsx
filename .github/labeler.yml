@@ -1,0 +1,23 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - README.md
+          - docs/**
+          - CHANGELOG.md
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
+          - azure-pipelines-*.yml
+          - .gitlab-ci.yml
+
+source:
+  - changed-files:
+      - any-glob-to-any-file:
+          - src/**
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - test/**

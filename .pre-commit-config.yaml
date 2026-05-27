@@ -1,0 +1,15 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+  - repo: local
+    hooks:
+      - id: pnpm-check
+        name: pnpm check
+        entry: pnpm run check
+        language: system
+        pass_filenames: false

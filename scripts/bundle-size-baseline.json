@@ -1,0 +1,4 @@
+{
+  "sizeBytes": 29036,
+  "note": "Run pnpm run update:bundle-size-baseline after an intentional bundle-size change."
+}

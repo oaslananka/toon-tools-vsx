@@ -1,0 +1,72 @@
+name: Feature request
+description: Suggest a focused addition or behavior change.
+title: 'feat: '
+labels: [source]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for extension behavior, language support, or workflow improvements.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the user workflow or limitation this would address.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the behavior, command, setting, or UI state you want.
+    validations:
+      required: true
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Area
+      options:
+        - Parser
+        - Formatter
+        - Linter
+        - Completion
+        - Hover
+        - Conversion command
+        - Table viewer webview
+        - Size analyzer webview
+        - Documentation
+        - Packaging or installation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: The version you are using, if relevant.
+      placeholder: 1.0.0
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Cross-platform
+        - Not platform-specific
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples
+      description: Include sample `.toon`, JSON, CSV, TSV, or expected output when useful.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked existing open issues for a similar request.
+          required: true
+        - label: I removed secrets, tokens, private file content, and private paths.
+          required: true

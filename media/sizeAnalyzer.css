@@ -1,0 +1,80 @@
+.size-shell {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.size-header {
+  display: grid;
+  gap: 4px;
+}
+
+.size-header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.size-header p {
+  margin: 0;
+  color: var(--vscode-descriptionForeground);
+}
+
+.comparison {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--vscode-panel-border);
+  background: var(--vscode-sideBar-background);
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 54px minmax(120px, 1fr) max-content;
+  align-items: center;
+  gap: 10px;
+}
+
+.size-meter {
+  display: block;
+  width: 100%;
+  height: 14px;
+  border: 1px solid var(--vscode-input-border);
+  background: var(--vscode-input-background);
+}
+
+.size-meter::-webkit-meter-bar {
+  background: var(--vscode-input-background);
+}
+
+.size-meter.toon::-webkit-meter-optimum-value {
+  background: var(--vscode-charts-green);
+}
+
+.size-meter.json::-webkit-meter-optimum-value {
+  background: var(--vscode-charts-blue);
+}
+
+.stats {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--vscode-panel-border);
+}
+
+.stats th,
+.stats td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  text-align: left;
+}
+
+.stats th {
+  color: var(--vscode-descriptionForeground);
+  font-weight: 600;
+  background: var(--vscode-sideBar-background);
+}
+
+.note {
+  margin: 0;
+  color: var(--vscode-descriptionForeground);
+}
