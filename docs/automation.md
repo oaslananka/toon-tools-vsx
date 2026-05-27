@@ -25,6 +25,24 @@ result, and how to reproduce the closest local check.
 | Dependabot GitHub Actions updates | `.github/dependabot.yml` | Weekly Monday 05:15 Europe/Istanbul, with cooldown windows                                | Opens grouped PRs for GitHub Actions references.                                                                                                                               | Verify action metadata and runner runtime before merging.                                                                           | `rg -n "uses:\\s*" .github/workflows`; then inspect each referenced action metadata before changing pins. |
 | Renovate                          | `renovate.json`          | Renovate app schedule, including lockfile maintenance before Monday 06:00 Europe/Istanbul | Keeps dependency update policy explicit: recommended base config, dependency dashboard, semantic commits, separate major releases, pinned ranges, and GitHub Actions grouping. | Use the dependency dashboard to schedule or suppress update PRs; keep `@types/vscode` pinned until the VS Code engine target moves. | `pnpm outdated`; Renovate dry runs require a configured Renovate CLI token and are not repository-pinned. |
 
+## Repository Security Analysis
+
+The repository security-analysis settings were verified on 2026-05-28:
+
+| Setting                               | Status   | Validation                                                                                                    |
+| ------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| Dependabot alerts                     | Enabled  | `gh api -i /repos/oaslananka/toon-tools-vsx/vulnerability-alerts` returns `204 No Content`.                   |
+| Dependabot security updates           | Enabled  | `gh api -i /repos/oaslananka/toon-tools-vsx/automated-security-fixes` returns `enabled: true`.                |
+| Open Dependabot alerts                | None     | `gh api '/repos/oaslananka/toon-tools-vsx/dependabot/alerts?state=open'` returns an empty list.               |
+| Secret scanning                       | Enabled  | `gh api /repos/oaslananka/toon-tools-vsx --jq '.security_and_analysis.secret_scanning'`.                      |
+| Secret scanning push protection       | Enabled  | `gh api /repos/oaslananka/toon-tools-vsx --jq '.security_and_analysis.secret_scanning_push_protection'`.      |
+| Secret scanning non-provider patterns | Disabled | The API keeps this disabled for the current repository plan; re-check if GitHub Secret Protection is enabled. |
+| Secret scanning validity checks       | Disabled | The API keeps this disabled for the current repository plan; re-check if GitHub Secret Protection is enabled. |
+
+Use `pnpm audit --audit-level high` and the `Dependency Review` workflow as the local and pull
+request gates. Use GitHub Dependabot alerts as the source of truth for advisory triage after the
+dependency graph finishes indexing new manifests.
+
 ## Reviewer Automation
 
 | Automation                  | Source                                      | Trigger                                                                                                              | Purpose                                                                                                           | Maintainer action                                                                                                        | Local equivalent                                                                                                        |
