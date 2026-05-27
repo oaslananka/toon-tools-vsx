@@ -4,8 +4,14 @@ const { execFileSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-const defaultTargetVersion = process.argv[2] || pkg.version;
+const defaultTargetVersion = readTargetVersion(process.argv.slice(2), pkg.version);
 const defaultExtensionId = `${pkg.publisher}.${pkg.name}`;
+
+function readTargetVersion(argv, fallbackVersion) {
+  const positionalArgs = argv.filter((arg) => arg !== '--');
+  return positionalArgs[0] || fallbackVersion;
+}
+
 function runTool(args) {
   const command = process.platform === 'win32' ? 'cmd.exe' : 'pnpm';
   const commandArgs =
@@ -27,7 +33,7 @@ function quoteCmdArg(value) {
 
 function isNotFoundError(error) {
   const text = `${error.stdout || ''}\n${error.stderr || ''}`;
-  return /not found|could not find|does not exist/i.test(text);
+  return /not found|could not find|does not exist|no published version matching/i.test(text);
 }
 
 function parseToolJson(output, source) {
@@ -116,4 +122,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { parseToolJson };
+module.exports = { isNotFoundError, parseToolJson, readTargetVersion };
