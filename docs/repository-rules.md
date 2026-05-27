@@ -12,8 +12,10 @@ the repository ruleset through `gh api`; it requires an authenticated GitHub CLI
 repository administration write permission.
 
 The script follows the GitHub repository rulesets REST endpoint and rule names checked on
-2026-05-22. It targets the default branch through `~DEFAULT_BRANCH`, uses `active` enforcement by
-default, and keeps `bypass_actors` empty so bypass is not silently granted.
+2026-05-27. It targets the default branch through `~DEFAULT_BRANCH`, uses `active` enforcement by
+default, and keeps `bypass_actors` empty so bypass is not silently granted. It also updates
+repository merge settings so the GitHub UI allows squash and rebase merges only, deletes merged
+head branches, enables auto-merge, and allows update-branch.
 
 ## Main Branch Ruleset
 
@@ -45,6 +47,19 @@ Required PR checks:
 `Workflow Security`, `OpenSSF Scorecard`, and release validation are not required PR checks in this
 ruleset because they do not run on every pull request. They remain scheduled, path-filtered, or
 release-time controls.
+
+## Validation
+
+After applying the ruleset, verify the live repository state with:
+
+```powershell
+gh api /repos/oaslananka/toon-tools-vsx/rulesets --jq '.[] | {name,target,enforcement}'
+gh api /repos/oaslananka/toon-tools-vsx/branches/main/protection
+gh repo view --json mergeCommitAllowed,squashMergeAllowed,rebaseMergeAllowed,deleteBranchOnMerge,autoMergeAllowed
+```
+
+The branch protection endpoint should report that branch protection is disabled when the repository
+uses rulesets instead. The ruleset list is the source of truth.
 
 ## Release Tags
 
