@@ -77,7 +77,17 @@ gitleaks detect --source . --no-git --redact --verbose
 After a pull request is merged to `main`, release-please opens or updates a release PR. Merge that
 release PR through the normal review policy. When the release PR merge creates a GitHub Release, the
 release workflow builds the VSIX from a clean checkout, generates a CycloneDX SBOM and SHA256
-checksums, attests provenance, uploads release assets, and publishes the VSIX to both marketplaces.
+checksums, attests provenance, and uploads release assets.
+
+Marketplace publishing is a separate maintainer step until the repository has marketplace tokens
+configured in the release environment. Publish the already-built VSIX with:
+
+```bash
+./scripts/publish-marketplaces.sh
+```
+
+The script requires authenticated `vsce` and `ovsx` credentials in the environment used by the
+maintainer.
 
 Publishing is skipped unless `release_created == true`.
 
