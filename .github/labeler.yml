@@ -1,23 +1,106 @@
-documentation:
+area:docs:
   - changed-files:
       - any-glob-to-any-file:
           - README.md
+          - CONTRIBUTING.md
+          - CODE_OF_CONDUCT.md
+          - docs/**
+          - CHANGELOG.md
+          - .github/ISSUE_TEMPLATE/**
+          - .github/PULL_REQUEST_TEMPLATE.md
+
+type:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - README.md
+          - CONTRIBUTING.md
+          - CODE_OF_CONDUCT.md
           - docs/**
           - CHANGELOG.md
 
-ci:
+area:ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/**
+          - azure-pipelines-*.yml
+          - .gitlab-ci.yml
+          - .github/dependabot.yml
+          - .github/dependency-review-config.yml
+          - renovate.json
+
+area:infra:
   - changed-files:
       - any-glob-to-any-file:
           - .github/**
-          - azure-pipelines-*.yml
-          - .gitlab-ci.yml
+          - scripts/**
 
-source:
+area:governance:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/CODEOWNERS
+          - .github/labeler.yml
+          - .github/labels.yml
+          - .github/workflows/labeler.yml
+          - CONTRIBUTING.md
+          - docs/adr/**
+          - docs/automation.md
+          - docs/contributing.md
+
+area:security:
+  - changed-files:
+      - any-glob-to-any-file:
+          - SECURITY.md
+          - .gitleaks.toml
+          - .github/dependency-license-policy.json
+          - .github/dependency-review-config.yml
+          - .github/workflows/codeql.yml
+          - .github/workflows/dependency-review.yml
+          - .github/workflows/gitleaks.yml
+          - .github/workflows/scorecard.yml
+          - .github/workflows/workflow-security.yml
+
+area:release:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/release.yml
+          - .release-please-manifest.json
+          - release-please-config.json
+          - docs/publishing.md
+          - docs/release-readiness.md
+
+area:compatibility:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .node-version
+          - .nvmrc
+          - package.json
+          - pnpm-lock.yaml
+          - tsconfig*.json
+
+area:packaging:
+  - changed-files:
+      - any-glob-to-any-file:
+          - package.json
+          - pnpm-lock.yaml
+          - webpack.config.js
+          - .vscodeignore
+          - scripts/check-package-contents.js
+          - scripts/check-publish-targets.js
+          - scripts/check-release-assets.js
+          - scripts/check-bundle-size.js
+          - scripts/bundle-size-baseline.json
+
+area:debt:
   - changed-files:
       - any-glob-to-any-file:
           - src/**
+          - eslint.config.cjs
+          - prettier.config.*
 
-tests:
+area:testing:
   - changed-files:
       - any-glob-to-any-file:
           - test/**
+          - test-fixtures/**
+          - vitest.config.ts
+          - stryker.config.*

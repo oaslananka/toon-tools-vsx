@@ -54,6 +54,14 @@ pnpm exec vsce ls --tree
 
 - The change is focused and does not rewrite unrelated code.
 - Public behavior changes are documented.
+- Runtime, release, security automation, compatibility, or long-lived architecture changes include
+  an ADR under `docs/adr/`.
 - Unit tests cover parser, converter, formatter, linter, or provider behavior affected by the change.
 - Webview changes preserve a restrictive CSP and use VS Code theme variables.
 - No secrets, local prompts, transcripts, scratch files, or generated credentials are committed.
+
+## Triage and Labels
+
+Pull request area labels are applied from changed paths by the labeler workflow. Maintainers may add
+priority and risk labels after reviewing the impact. Issues should keep one `type:*` label and at
+least one `area:*` label once the affected component is known.

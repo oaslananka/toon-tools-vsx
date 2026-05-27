@@ -1,7 +1,7 @@
 name: Feature request
 description: Suggest a focused addition or behavior change.
 title: 'feat: '
-labels: [source]
+labels: ['type:enhancement']
 body:
   - type: markdown
     attributes:

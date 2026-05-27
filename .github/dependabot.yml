@@ -11,7 +11,7 @@ updates:
       day: monday
       time: '05:00'
       timezone: Europe/Istanbul
-    labels: [dependencies]
+    labels: ['type:upgrade', 'area:compatibility']
     open-pull-requests-limit: 5
     cooldown:
       default-days: 7
@@ -48,7 +48,7 @@ updates:
       day: monday
       time: '05:15'
       timezone: Europe/Istanbul
-    labels: [dependencies]
+    labels: ['type:upgrade', 'area:ci']
     open-pull-requests-limit: 5
     cooldown:
       default-days: 7
