@@ -1,8 +1,8 @@
 import { vi, type Mock } from 'vitest';
 
-type AnyFunction = (...args: any[]) => any;
+type MockableFunction = (...args: never[]) => unknown;
 
-function mockFn<T extends AnyFunction>(implementation?: T): Mock<T> {
+function mockFn<T extends MockableFunction>(implementation?: T): Mock<T> {
   return vi.fn(implementation);
 }
 
@@ -44,10 +44,16 @@ export interface Disposable {
   dispose(): void;
 }
 
+export interface WorkspaceFolder {
+  uri: Uri;
+  name: string;
+  index: number;
+}
+
 export const workspace = {
   textDocuments: [] as TextDocument[],
   isTrusted: true,
-  workspaceFolders: undefined as { uri: Uri; name: string; index: number }[] | undefined,
+  workspaceFolders: undefined as WorkspaceFolder[] | undefined,
   findFiles: mockFn(async () => []),
   getConfiguration: (_section?: string) => ({
     get: <T>(key: string, fallback?: T): T =>

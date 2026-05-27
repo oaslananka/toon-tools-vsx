@@ -2,6 +2,12 @@ import { describe, it, expect, vi } from 'vitest';
 import * as vscode from 'vscode';
 import { ToonExplorerProvider, ToonExplorerItem } from '../../src/ui/toonExplorer';
 
+type MutableWorkspace = Omit<typeof vscode.workspace, 'workspaceFolders'> & {
+  workspaceFolders: vscode.WorkspaceFolder[] | undefined;
+};
+
+const workspace = vscode.workspace as MutableWorkspace;
+
 describe('ToonExplorerProvider', () => {
   it('should return root elements when getChildren is called without arguments', async () => {
     const provider = new ToonExplorerProvider();
@@ -53,7 +59,7 @@ describe('ToonExplorerProvider', () => {
   });
 
   it('should return empty item if no files are found in workspace', async () => {
-    (vscode.workspace as any).workspaceFolders = [
+    workspace.workspaceFolders = [
       { uri: vscode.Uri.file('/workspace'), name: 'workspace', index: 0 },
     ];
     vi.mocked(vscode.workspace.findFiles).mockResolvedValueOnce([]);
@@ -70,11 +76,11 @@ describe('ToonExplorerProvider', () => {
     expect(children[0].label).toBe('No .toon files found');
 
     // reset
-    (vscode.workspace as any).workspaceFolders = undefined;
+    workspace.workspaceFolders = undefined;
   });
 
   it('should return files when files are found in workspace', async () => {
-    (vscode.workspace as any).workspaceFolders = [
+    workspace.workspaceFolders = [
       { uri: vscode.Uri.file('/workspace'), name: 'workspace', index: 0 },
     ];
     vi.mocked(vscode.workspace.findFiles).mockResolvedValueOnce([
@@ -99,7 +105,7 @@ describe('ToonExplorerProvider', () => {
     expect(children[1].label).toBe('b.toon');
 
     // reset
-    (vscode.workspace as any).workspaceFolders = undefined;
+    workspace.workspaceFolders = undefined;
   });
 
   it('should return getTreeItem unchanged', () => {
