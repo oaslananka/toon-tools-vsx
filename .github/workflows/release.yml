@@ -67,7 +67,7 @@ jobs:
       - name: Enable pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@10.33.0 --activate
+          corepack prepare pnpm@10.34.0 --activate
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -81,7 +81,16 @@ jobs:
         run: pnpm run check:publish-targets -- "$RELEASE_VERSION"
 
       - name: Generate SBOM
-        run: npx --yes @cyclonedx/cdxgen@12.3.3 -t pnpm --no-recurse -o sbom.cdx.json --no-babel
+        env:
+          SYFT_VERSION: '1.44.0'
+          SOURCE_NAME: ${{ github.repository }}
+          SOURCE_VERSION: ${{ needs.release-please.outputs.version }}
+        run: |
+          curl -sSfL -o syft.tar.gz "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_linux_amd64.tar.gz"
+          curl -sSfL -o syft_checksums.txt "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_checksums.txt"
+          grep " syft_${SYFT_VERSION}_linux_amd64.tar.gz$" syft_checksums.txt | sha256sum -c -
+          tar -xzf syft.tar.gz syft
+          ./syft scan dir:. --exclude './node_modules/**' --source-name "$SOURCE_NAME" --source-version "$SOURCE_VERSION" -o cyclonedx-json=sbom.cdx.json
 
       - name: Generate checksums
         run: |

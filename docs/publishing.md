@@ -76,8 +76,9 @@ gitleaks detect --source . --no-git --redact --verbose
 
 After a pull request is merged to `main`, release-please opens or updates a release PR. Merge that
 release PR through the normal review policy. When the release PR merge creates a GitHub Release, the
-release workflow builds the VSIX from a clean checkout, generates a CycloneDX SBOM and SHA256
-checksums, attests provenance, and uploads release assets.
+release workflow builds the VSIX from a clean checkout, downloads the pinned Syft release archive,
+verifies its checksum, generates a CycloneDX JSON SBOM and SHA256 checksums, attests provenance, and
+uploads release assets.
 
 Marketplace publishing is a separate maintainer step until the repository has marketplace tokens
 configured in the release environment. Publish the already-built VSIX with:
