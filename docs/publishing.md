@@ -48,13 +48,13 @@ pnpm run check:publish-targets
 Validate the expected GitHub Release asset set after a release exists:
 
 ```bash
-pnpm run check:release-assets -- --tag toon-tools-vsx-v1.1.0
+pnpm run check:release-assets -- --tag <release-tag>
 ```
 
 The same checker supports an offline fixture for local script validation:
 
 ```bash
-pnpm run check:release-assets -- --tag toon-tools-vsx-v1.0.0 --fixture test-fixtures/release-assets.valid.json
+pnpm run check:release-assets -- --tag oaslananka.toon-tools-vsx-v1.0.2 --fixture test-fixtures/release-assets.valid.json
 ```
 
 ## Clean Clone Verification

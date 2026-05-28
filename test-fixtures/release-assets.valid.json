@@ -1,20 +1,20 @@
 {
-  "tagName": "toon-tools-vsx-v1.0.0",
+  "tagName": "oaslananka.toon-tools-vsx-v1.0.2",
   "isDraft": false,
   "isPrerelease": false,
-  "url": "https://github.com/oaslananka/toon-tools-vsx/releases/tag/toon-tools-vsx-v1.0.0",
+  "url": "https://github.com/oaslananka/toon-tools-vsx/releases/tag/oaslananka.toon-tools-vsx-v1.0.2",
   "assets": [
     {
-      "name": "toon-tools-vsx-1.0.0.vsix",
-      "size": 328912
+      "name": "toon-tools-vsx-1.0.2.vsix",
+      "size": 391874
     },
     {
       "name": "sbom.cdx.json",
-      "size": 64512
+      "size": 942163
     },
     {
       "name": "checksums.sha256",
-      "size": 178
+      "size": 174
     }
   ]
 }
