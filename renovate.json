@@ -7,7 +7,7 @@
     ":separateMajorReleases"
   ],
   "timezone": "Europe/Istanbul",
-  "labels": ["dependencies"],
+  "labels": ["type:upgrade"],
   "enabledManagers": ["npm", "github-actions"],
   "rangeStrategy": "pin",
   "packageRules": [

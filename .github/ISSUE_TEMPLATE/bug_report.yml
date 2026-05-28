@@ -1,7 +1,7 @@
 name: Bug report
 description: Report incorrect behavior in the VS Code extension.
 title: 'fix: '
-labels: [source]
+labels: ['type:bug']
 body:
   - type: markdown
     attributes:
