@@ -28,23 +28,21 @@ and CSV export without leaving the editor.
 
 ## Preview
 
-### Syntax Highlighting & Inlay Hints
+### Syntax Highlighting & Diagnostics
 
-![Syntax highlighting and inlay hints](images/demo-syntax.png)
+![Syntax highlighting, diagnostics, and hover details](images/demo-syntax.png)
 
-<!-- TODO: replace with real screenshot -->
+### Inlay Hints
+
+![Field-name inlay hints](images/demo-inlay-hints.png)
 
 ### Table Viewer
 
 ![Sortable, filterable table viewer](images/demo-table-viewer.png)
 
-<!-- TODO: replace with real screenshot -->
+### Editor and Table Preview
 
-### Hover & Diagnostics
-
-![Hover tooltips and live diagnostics](images/demo-hover.png)
-
-<!-- TODO: replace with real screenshot -->
+![TOON editor and table preview side by side](images/demo-hover.png)
 
 ## Install
 
@@ -53,7 +51,8 @@ or [Open VSX](https://open-vsx.org/extension/oaslananka/toon-tools-vsx). To inst
 VSIX build, run:
 
 ```bash
-code --install-extension toon-tools-vsx-1.0.0.vsix
+pnpm run package
+code --install-extension ./toon-tools-vsx-<version>.vsix
 ```
 
 ## Usage

@@ -1,5 +1,9 @@
 # Changelog
 
+This changelog is managed by release-please from Conventional Commits. Do not maintain a manual
+`Unreleased` section here; unreleased changes are represented by merged commits and the
+release-please pull request.
+
 ## [1.0.2](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.1...oaslananka.toon-tools-vsx-v1.0.2) (2026-05-27)
 
 
@@ -14,6 +18,8 @@
 
 * ensure newline at end of JSON files ([ef07146](https://github.com/oaslananka/toon-tools-vsx/commit/ef071464cb8b29c8167483010cdf808712791535))
 
-## [1.0.0] - 2026-05-27
+## [1.0.0](https://github.com/oaslananka/toon-tools-vsx/releases/tag/oaslananka.toon-tools-vsx-v1.0.0) (2026-05-27)
 
-- Initial prototype release.
+### Features
+
+* initial prototype release

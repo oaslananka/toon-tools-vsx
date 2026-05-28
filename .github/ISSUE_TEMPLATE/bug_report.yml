@@ -13,7 +13,7 @@ body:
     attributes:
       label: Extension version
       description: The installed toon-tools-vsx version.
-      placeholder: 1.0.0
+      placeholder: 1.0.x
     validations:
       required: true
   - type: input

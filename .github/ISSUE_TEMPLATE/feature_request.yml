@@ -44,7 +44,7 @@ body:
     attributes:
       label: Extension version
       description: The version you are using, if relevant.
-      placeholder: 1.0.0
+      placeholder: 1.0.x
   - type: dropdown
     id: platform
     attributes:
