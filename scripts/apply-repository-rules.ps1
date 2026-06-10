@@ -144,7 +144,13 @@ function New-MainRulesetPayload {
     name          = $Name
     target        = 'branch'
     enforcement   = $RulesetEnforcement
-    bypass_actors = @()
+    bypass_actors = @(
+      [ordered] @{
+        actor_id    = 5
+        actor_type  = 'RepositoryRole'
+        bypass_mode = 'always'
+      }
+    )
     conditions    = [ordered] @{
       ref_name = [ordered] @{
         include = @('~DEFAULT_BRANCH')

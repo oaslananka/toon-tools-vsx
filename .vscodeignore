@@ -1,6 +1,7 @@
 .vscode/**
 .github/**
 .gitignore
+.env.example
 .node-version
 .nvmrc
 .prettierignore
@@ -10,6 +11,7 @@ azure-pipelines-*.yml
 .gitleaks.toml
 .yamllint.yml
 .husky/**
+.stryker-tmp/**
 .codex-checkpoints/**
 coverage/**
 reports/**
@@ -43,6 +45,7 @@ dist/**/*.map
 dist/**/*.d.ts
 node_modules/**
 tsconfig*.json
+vitest.config.ts
 eslint.config.cjs
 jest.config.js
 stryker.conf.json

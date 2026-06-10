@@ -6,7 +6,7 @@ runtime, and the pinned pnpm version.
 
 ## Source Checks
 
-Policy checks performed on 2026-05-28:
+Policy checks performed on 2026-06-10:
 
 - [Node.js releases](https://nodejs.org/en/about/releases/) and the
   [Node.js release schedule](https://github.com/nodejs/release#release-schedule): Node 24 is the
@@ -18,7 +18,7 @@ Policy checks performed on 2026-05-28:
   repository. pnpm settings live in `pnpm-workspace.yaml`; `package.json` mirrors npm-compatible
   metadata where needed by automation.
 - [pnpm releases](https://github.com/pnpm/pnpm/releases): pnpm 10.34.0 is the latest 10.x release
-  and pnpm 11.4.0 is the latest stable major. pnpm 11 is deferred until a dedicated lockfile and
+  and pnpm 11.5.2 is the latest stable major. pnpm 11 is deferred until a dedicated lockfile and
   install-behavior migration PR validates the new integrity and registry-alias behavior.
 - VS Code [extension manifest](https://code.visualstudio.com/api/references/extension-manifest) and
   [extension anatomy](https://code.visualstudio.com/api/get-started/extension-anatomy) docs:
@@ -32,8 +32,8 @@ Policy checks performed on 2026-05-28:
 - Anchore Syft releases and output-format docs: `syft@1.44.0` is the release SBOM generator. The
   release workflow downloads the Linux artifact and verifies its published checksum before writing
   `sbom.cdx.json` in CycloneDX JSON format.
-- Local repository policy: Dependabot, Renovate, `pnpm-workspace.yaml`, `.npmrc`, and CI workflows
-  define the automated update path.
+- Local repository policy: Renovate, GitHub security updates, `pnpm-workspace.yaml`, `.npmrc`, and
+  CI workflows define the automated update path.
 - npm registry metadata: T037 checked same-major latest versions, engine ranges, peer dependencies,
   dist-tags, repository URLs, and publish timestamps before updating dependency pins.
 - Jest 30, Vitest 4, and StrykerJS Vitest runner documentation: T038 compared the current Jest major
@@ -48,8 +48,8 @@ Policy checks performed on 2026-05-28:
 | Node.js            | `.node-version` and `.nvmrc`: `24.16.0`; `engines.node`: `>=24.0.0`   | Keep local, CI, and release jobs on the same Node 24 patch line. Move to a new even-numbered LTS line only after CI and extension tests pass.           | Check monthly and whenever Node publishes security fixes. |
 | pnpm               | `packageManager`: `pnpm@10.34.0`; `engines.pnpm`: `>=10.34.0`         | Keep `packageManager`, workflow `corepack prepare`, and lockfile version aligned. Do not mix npm, Yarn, or Bun lockfiles into this repo.                | Check weekly through dependency automation.               |
 | VS Code API floor  | `engines.vscode`: `^1.90.0`; `@types/vscode`: `1.90.0`                | Keep `@types/vscode` exactly aligned with the minimum VS Code engine. Raise both together only with compatibility notes and integration tests.          | Revisit when a feature requires a newer VS Code API.      |
-| TypeScript runtime | `typescript`: `6.0.3`; Vitest `4.1.7`; `@vitest/coverage-v8`: `4.1.7` | Patch and minor updates may ride automation. Major test or compiler moves require a dedicated task with local warning/deprecation output recorded.      | Check weekly; group major moves separately.               |
-| Publishing tools   | `@vscode/vsce`: `3.9.1`; `ovsx`: `0.10.12`; `syft`: `1.44.0`          | Update only after validating `pnpm run package`, `pnpm run check:package-contents`, SBOM generation, and `pnpm run check:publish-targets -- <version>`. | Check before release-readiness work and weekly updates.   |
+| TypeScript runtime | `typescript`: `6.0.3`; Vitest `4.1.8`; `@vitest/coverage-v8`: `4.1.8` | Patch and minor updates may ride automation. Major test or compiler moves require a dedicated task with local warning/deprecation output recorded.      | Check weekly; group major moves separately.               |
+| Publishing tools   | `@vscode/vsce`: `3.9.2`; `ovsx`: `1.0.0`; `syft`: `1.44.0`            | Update only after validating `pnpm run package`, `pnpm run check:package-contents`, SBOM generation, and `pnpm run check:publish-targets -- <version>`. | Check before release-readiness work and weekly updates.   |
 
 ## Intentional Pins
 
@@ -98,7 +98,7 @@ Node and pnpm exact pins
 `pnpm@10.34.0`
 
 - Reason: this is the latest pnpm 10.x release and keeps the current lockfile/install policy stable.
-  pnpm 11.4.0 is stable upstream, but it changes integrity handling and registry alias behavior, so
+  pnpm 11.5.2 is stable upstream, but it changes integrity handling and registry alias behavior, so
   it is deferred to a dedicated migration PR.
 - Update rule: keep using the latest pnpm 10.x until the pnpm 11 migration validates
   `pnpm install --frozen-lockfile`, lockfile diffs, build-script approvals, and release packaging.
@@ -133,7 +133,7 @@ tooling packages rather than repo-owned code:
 - `mocha@11.7.6` resolves `glob@10.5.0`. Track upstream Mocha issues
   `mochajs/mocha#5779`, `mochajs/mocha#5874`, and the Mocha 12 release plan before changing the
   VS Code integration-test runner.
-- `@vscode/vsce@3.9.1` and `ovsx@0.10.12` resolve deprecated transitive packages through the
+- `@vscode/vsce@3.9.2` and `ovsx@1.0.0` resolve deprecated transitive packages through the
   official VS Code packaging toolchain. Track `microsoft/vscode-vsce#1237`; replace these CLIs only
   after a compatibility review proves Marketplace and Open VSX packaging behavior is unchanged.
 
@@ -156,8 +156,8 @@ When pnpm reports a new dependency with ignored or pending build scripts:
 
 ## Update Cadence
 
-- Weekly automation: Dependabot and Renovate may open npm and GitHub Actions update PRs on Monday
-  morning Europe/Istanbul. Do not merge unstable dependency PRs.
+- Weekly automation: Renovate may open npm and GitHub Actions update PRs on Monday morning
+  Europe/Istanbul. Do not merge unstable dependency PRs.
 - Security updates: patch the affected package or override as soon as a high-severity advisory applies
   to installed code or release tooling.
 - Patch and minor updates: accept after lockfile review, `pnpm run check:ci`, and any workflow checks
