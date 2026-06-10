@@ -21,15 +21,17 @@ async function main(): Promise<void> {
   ]);
 }
 
-main().catch((err) => {
-  console.error('Integration test runner failed:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error('Integration test runner failed:', err);
+    process.exit(1);
+  });
+}
 
 function runTestsWithoutShell(executable: string, args: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn(executable, args, {
-      env: process.env,
+      env: createTestEnvironment(process.env),
       shell: false,
       stdio: 'inherit',
       windowsHide: true,
@@ -44,4 +46,10 @@ function runTestsWithoutShell(executable: string, args: string[]): Promise<void>
       reject(new Error(signal ? `VS Code exited with signal ${signal}` : `VS Code exited ${code}`));
     });
   });
+}
+
+export function createTestEnvironment(source: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  const environment = { ...source };
+  delete environment.ELECTRON_RUN_AS_NODE;
+  return environment;
 }
