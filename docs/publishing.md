@@ -80,15 +80,18 @@ release workflow builds the VSIX from a clean checkout, downloads the pinned Syf
 verifies its checksum, generates a CycloneDX JSON SBOM and SHA256 checksums, attests provenance, and
 uploads release assets.
 
-Marketplace publishing is a separate maintainer step until the repository has marketplace tokens
-configured in the release environment. Publish the already-built VSIX with:
+Marketplace publishing runs automatically when the protected `marketplace` environment provides
+`VSCE_PAT` and `OVSX_PAT`. The release still succeeds and retains its verified GitHub assets when
+one or both credentials are intentionally absent.
+
+For an exceptional maintainer-run publish, start from `.env.example`, expose the credentials only
+to the current shell, and publish the already-built VSIX with:
 
 ```bash
 ./scripts/publish-marketplaces.sh
 ```
 
-The script requires authenticated `vsce` and `ovsx` credentials in the environment used by the
-maintainer.
+The script requires authenticated `vsce` and `ovsx` credentials in the maintainer environment.
 
 Publishing is skipped unless `release_created == true`.
 

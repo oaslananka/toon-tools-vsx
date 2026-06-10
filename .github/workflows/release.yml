@@ -111,3 +111,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ needs.release-please.outputs.tag_name }}
         run: gh release upload "$RELEASE_TAG" ./*.vsix sbom.cdx.json checksums.sha256 --repo "$GITHUB_REPOSITORY"
+
+      - name: Detect marketplace publishing credentials
+        id: marketplace
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          test -n "$VSCE_PAT" && echo "vsce=true" >> "$GITHUB_OUTPUT" || echo "vsce=false" >> "$GITHUB_OUTPUT"
+          test -n "$OVSX_PAT" && echo "ovsx=true" >> "$GITHUB_OUTPUT" || echo "ovsx=false" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to VS Code Marketplace
+        if: ${{ steps.marketplace.outputs.vsce == 'true' }}
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: pnpm exec vsce publish --packagePath ./*.vsix
+
+      - name: Publish to Open VSX
+        if: ${{ steps.marketplace.outputs.ovsx == 'true' }}
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: pnpm exec ovsx publish ./*.vsix
