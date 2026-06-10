@@ -9,9 +9,14 @@ tasks:
     desc: Check formatting
     cmds: [pnpm run format:check]
 
+  format:
+    desc: Format source files
+    cmds: [pnpm run format]
+
   format:fix:
     desc: Auto-fix formatting
-    cmds: [pnpm run format]
+    cmds:
+      - task: format
 
   lint:
     desc: ESLint + format check
@@ -35,6 +40,12 @@ tasks:
     desc: VS Code integration tests
     cmds: [pnpm run test:integration]
 
+  test:
+    desc: Run unit and integration tests
+    cmds:
+      - task: test:unit
+      - task: test:integration
+
   build:
     desc: Production webpack build
     cmds: [pnpm run build]
@@ -57,13 +68,10 @@ tasks:
 
   ci:
     desc: Full CI pipeline
+    cmds: [pnpm run check:ci]
+
+  release:
+    desc: Build and validate a release-ready VSIX
     cmds:
-      - task: audit:ci
-      - task: lint
-      - task: typecheck
-      - pnpm run check:workspace-trust
-      - task: test:unit:coverage
-      - task: test:integration
-      - task: build
-      - task: package
-      - pnpm run check:bundle-size
+      - task: ci
+      - pnpm exec vsce ls --tree --no-dependencies

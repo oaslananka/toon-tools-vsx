@@ -32,6 +32,7 @@ const requiredPaths = [
 ];
 
 const forbiddenPaths = new Set([
+  '.env.example',
   '.release-please-manifest.json',
   '.gitignore',
   '.gitleaks.toml',
@@ -55,6 +56,7 @@ const forbiddenPaths = new Set([
   'stryker.conf.json',
   'tsconfig.json',
   'tsconfig.test.json',
+  'vitest.config.ts',
   'webpack.config.js',
 ]);
 
@@ -62,6 +64,7 @@ const forbiddenDirectories = [
   '.codex-checkpoints',
   '.github',
   '.husky',
+  '.stryker-tmp',
   '.vscode',
   'coverage',
   'node_modules',
