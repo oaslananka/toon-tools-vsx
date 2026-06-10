@@ -74,4 +74,4 @@ tasks:
     desc: Build and validate a release-ready VSIX
     cmds:
       - task: ci
-      - pnpm exec vsce ls --tree --no-dependencies
+      - pnpm run package:ls
