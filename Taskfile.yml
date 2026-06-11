@@ -58,6 +58,14 @@ tasks:
     desc: Security audit (high+)
     cmds: [pnpm run audit:ci]
 
+  verify:
+    desc: Full local verification gate
+    cmds:
+      - task: lint
+      - task: typecheck
+      - task: test
+      - task: build
+
   pre-push:
     desc: Local pre-push gate
     cmds:
