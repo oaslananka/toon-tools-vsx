@@ -4,6 +4,8 @@ This changelog is managed by release-please from Conventional Commits. Do not ma
 `Unreleased` section here; unreleased changes are represented by merged commits and the
 release-please pull request.
 
+## [Unreleased]
+
 ## [1.0.2](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.1...oaslananka.toon-tools-vsx-v1.0.2) (2026-05-27)
 
 
