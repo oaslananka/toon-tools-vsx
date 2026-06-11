@@ -80,9 +80,18 @@ release workflow builds the VSIX from a clean checkout, downloads the pinned Syf
 verifies its checksum, generates a CycloneDX JSON SBOM and SHA256 checksums, attests provenance, and
 uploads release assets.
 
-Marketplace publishing runs automatically when the protected `marketplace` environment provides
-`VSCE_PAT` and `OVSX_PAT`. The release still succeeds and retains its verified GitHub assets when
-one or both credentials are intentionally absent.
+Marketplace publishing runs automatically from the same workflow. The protected `marketplace`
+environment must provide both `VSCE_PAT` and `OVSX_PAT`; missing credentials fail the release job
+instead of silently skipping a registry.
+
+If a GitHub Release already exists but one or both marketplaces were not published, manually run the
+`Release` workflow with:
+
+- `release_tag`: the existing GitHub Release tag, for example `oaslananka.toon-tools-vsx-v1.0.2`
+- `version`: the package version matching the release VSIX asset, for example `1.0.2`
+
+The manual job verifies the GitHub Release asset set, downloads the existing VSIX from the release,
+checks registry target versions, and publishes that exact asset to VS Code Marketplace and Open VSX.
 
 For an exceptional maintainer-run publish, start from `.env.example`, expose the credentials only
 to the current shell, and publish the already-built VSIX with:
@@ -93,7 +102,12 @@ to the current shell, and publish the already-built VSIX with:
 
 The script requires authenticated `vsce` and `ovsx` credentials in the maintainer environment.
 
-Publishing is skipped unless `release_created == true`.
+Automatic publishing is skipped unless `release_created == true`. Existing releases use the manual
+`workflow_dispatch` path above.
+
+Integration tests pin VS Code to the minimum supported API floor (`1.90.0`) so CI does not drift
+when a new stable VS Code build is released. To test another editor version locally, set
+`TOON_TOOLS_TEST_VSCODE_VERSION` before running `pnpm run test:integration`.
 
 ## Post-Release Smoke
 

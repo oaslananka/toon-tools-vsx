@@ -1,6 +1,16 @@
 name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing GitHub Release tag to publish to marketplaces.
+        required: true
+        type: string
+      version:
+        description: Existing extension version to publish, matching package.json and the VSIX asset name.
+        required: true
+        type: string
   push:
     branches: [main]
 
@@ -18,7 +28,7 @@ defaults:
 jobs:
   release-please:
     name: Release Please
-    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' }}
+    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && github.event_name == 'push' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
@@ -72,6 +82,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Require marketplace publishing credentials
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          missing=0
+          if [ -z "$VSCE_PAT" ]; then
+            echo "::error::VSCE_PAT marketplace environment secret is required."
+            missing=1
+          fi
+          if [ -z "$OVSX_PAT" ]; then
+            echo "::error::OVSX_PAT marketplace environment secret is required."
+            missing=1
+          fi
+          exit "$missing"
+
       - name: Run release validation
         run: xvfb-run -a pnpm run check:ci
 
@@ -112,23 +138,88 @@ jobs:
           RELEASE_TAG: ${{ needs.release-please.outputs.tag_name }}
         run: gh release upload "$RELEASE_TAG" ./*.vsix sbom.cdx.json checksums.sha256 --repo "$GITHUB_REPOSITORY"
 
-      - name: Detect marketplace publishing credentials
-        id: marketplace
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: |
-          test -n "$VSCE_PAT" && echo "vsce=true" >> "$GITHUB_OUTPUT" || echo "vsce=false" >> "$GITHUB_OUTPUT"
-          test -n "$OVSX_PAT" && echo "ovsx=true" >> "$GITHUB_OUTPUT" || echo "ovsx=false" >> "$GITHUB_OUTPUT"
-
       - name: Publish to VS Code Marketplace
-        if: ${{ steps.marketplace.outputs.vsce == 'true' }}
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: pnpm exec vsce publish --packagePath ./*.vsix
 
       - name: Publish to Open VSX
-        if: ${{ steps.marketplace.outputs.ovsx == 'true' }}
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: pnpm exec ovsx publish ./*.vsix
+
+  publish-existing-release:
+    name: Publish Existing Release
+    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: marketplace
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: .node-version
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.34.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Require marketplace publishing credentials
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          missing=0
+          if [ -z "$VSCE_PAT" ]; then
+            echo "::error::VSCE_PAT marketplace environment secret is required."
+            missing=1
+          fi
+          if [ -z "$OVSX_PAT" ]; then
+            echo "::error::OVSX_PAT marketplace environment secret is required."
+            missing=1
+          fi
+          exit "$missing"
+
+      - name: Verify release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: pnpm run check:release-assets -- --tag "$RELEASE_TAG"
+
+      - name: Download release VSIX
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          vsix="toon-tools-vsx-${RELEASE_VERSION}.vsix"
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$vsix" --clobber
+          test -s "$vsix"
+
+      - name: Validate registry target versions
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: pnpm run check:publish-targets -- "$RELEASE_VERSION"
+
+      - name: Publish to VS Code Marketplace
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: pnpm exec vsce publish --packagePath "toon-tools-vsx-${RELEASE_VERSION}.vsix"
+
+      - name: Publish to Open VSX
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: pnpm exec ovsx publish "toon-tools-vsx-${RELEASE_VERSION}.vsix"

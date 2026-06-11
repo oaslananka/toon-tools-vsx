@@ -1,6 +1,7 @@
 name: Commitlint
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, edited]
@@ -21,7 +22,7 @@ defaults:
 jobs:
   commitlint:
     name: Commitlint
-    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && github.event.pull_request.draft == false }}
+    if: ${{ github.repository == 'oaslananka/toon-tools-vsx' && github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:

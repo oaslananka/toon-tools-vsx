@@ -6,15 +6,15 @@ and the release workflow, not manual edits to this page.
 
 ## Current Release State
 
-| Item                             | Current value                                                                                                                    |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Package version                  | `1.0.2`                                                                                                                          |
-| Release-please manifest          | `.release-please-manifest.json` contains `".": "1.0.2"`                                                                          |
-| Latest GitHub Release            | [`oaslananka.toon-tools-vsx-v1.0.2`](https://github.com/oaslananka/toon-tools-vsx/releases/tag/oaslananka.toon-tools-vsx-v1.0.2) |
-| Required release assets          | `toon-tools-vsx-1.0.2.vsix`, `sbom.cdx.json`, `checksums.sha256`                                                                 |
-| Changelog source of truth        | `CHANGELOG.md`, maintained by release-please from Conventional Commits                                                           |
-| Marketplace publishing state     | The release workflow publishes when protected `VSCE_PAT` and `OVSX_PAT` environment secrets are configured                       |
-| Current release verification doc | [docs/publishing.md](publishing.md)                                                                                              |
+| Item                             | Current value                                                                                                                      |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Package version                  | `1.0.2`                                                                                                                            |
+| Release-please manifest          | `.release-please-manifest.json` contains `".": "1.0.2"`                                                                            |
+| Latest GitHub Release            | [`oaslananka.toon-tools-vsx-v1.0.2`](https://github.com/oaslananka/toon-tools-vsx/releases/tag/oaslananka.toon-tools-vsx-v1.0.2)   |
+| Required release assets          | `toon-tools-vsx-1.0.2.vsix`, `sbom.cdx.json`, `checksums.sha256`                                                                   |
+| Changelog source of truth        | `CHANGELOG.md`, maintained by release-please from Conventional Commits                                                             |
+| Marketplace publishing state     | The release workflow requires protected `VSCE_PAT` and `OVSX_PAT` environment secrets; missing credentials fail publish validation |
+| Current release verification doc | [docs/publishing.md](publishing.md)                                                                                                |
 
 Before merging release-bound changes, use the local gate in [docs/publishing.md](publishing.md) and
 verify the GitHub Release assets with:

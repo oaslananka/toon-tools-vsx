@@ -2,10 +2,14 @@ import * as path from 'path';
 import { spawn } from 'child_process';
 import { downloadAndUnzipVSCode } from '@vscode/test-electron';
 
+export const DEFAULT_INTEGRATION_TEST_VSCODE_VERSION = '1.90.0';
+
 async function main(): Promise<void> {
   const extensionDevelopmentPath = path.resolve(__dirname, '../../../');
   const extensionTestsPath = path.resolve(__dirname, './suite/index');
-  const vscodeExecutablePath = await downloadAndUnzipVSCode({ version: 'stable' });
+  const vscodeExecutablePath = await downloadAndUnzipVSCode({
+    version: resolveIntegrationTestVSCodeVersion(process.env),
+  });
   await runTestsWithoutShell(vscodeExecutablePath, [
     extensionDevelopmentPath,
     '--no-sandbox',
@@ -52,4 +56,9 @@ export function createTestEnvironment(source: NodeJS.ProcessEnv): NodeJS.Process
   const environment = { ...source };
   delete environment.ELECTRON_RUN_AS_NODE;
   return environment;
+}
+
+export function resolveIntegrationTestVSCodeVersion(source: NodeJS.ProcessEnv): string {
+  const configuredVersion = source.TOON_TOOLS_TEST_VSCODE_VERSION?.trim();
+  return configuredVersion || DEFAULT_INTEGRATION_TEST_VSCODE_VERSION;
 }
