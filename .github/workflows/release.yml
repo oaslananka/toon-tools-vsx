@@ -112,10 +112,11 @@ jobs:
           SOURCE_NAME: ${{ github.repository }}
           SOURCE_VERSION: ${{ needs.release-please.outputs.version }}
         run: |
-          curl -sSfL -o syft.tar.gz "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_linux_amd64.tar.gz"
+          syft_archive="syft_${SYFT_VERSION}_linux_amd64.tar.gz"
+          curl -sSfL -o "$syft_archive" "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/${syft_archive}"
           curl -sSfL -o syft_checksums.txt "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_checksums.txt"
-          grep " syft_${SYFT_VERSION}_linux_amd64.tar.gz$" syft_checksums.txt | sha256sum -c -
-          tar -xzf syft.tar.gz syft
+          grep " ${syft_archive}$" syft_checksums.txt | sha256sum -c -
+          tar -xzf "$syft_archive" syft
           ./syft scan dir:. --exclude './node_modules/**' --source-name "$SOURCE_NAME" --source-version "$SOURCE_VERSION" -o cyclonedx-json=sbom.cdx.json
 
       - name: Generate checksums
@@ -190,6 +191,42 @@ jobs:
             missing=1
           fi
           exit "$missing"
+
+      - name: Run release validation
+        run: xvfb-run -a pnpm run check:ci
+
+      - name: Validate registry target versions
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: pnpm run check:publish-targets -- "$RELEASE_VERSION"
+
+      - name: Package VSIX
+        run: pnpm run package
+
+      - name: Generate SBOM
+        env:
+          SYFT_VERSION: '1.44.0'
+          SOURCE_NAME: ${{ github.repository }}
+          SOURCE_VERSION: ${{ inputs.version }}
+        run: |
+          syft_archive="syft_${SYFT_VERSION}_linux_amd64.tar.gz"
+          curl -sSfL -o "$syft_archive" "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/${syft_archive}"
+          curl -sSfL -o syft_checksums.txt "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_checksums.txt"
+          grep " ${syft_archive}$" syft_checksums.txt | sha256sum -c -
+          tar -xzf "$syft_archive" syft
+          ./syft scan dir:. --exclude './node_modules/**' --source-name "$SOURCE_NAME" --source-version "$SOURCE_VERSION" -o cyclonedx-json=sbom.cdx.json
+
+      - name: Generate checksums
+        run: |
+          vsix="$(find . -maxdepth 1 -type f -name '*.vsix' -print -quit)"
+          test -n "$vsix"
+          sha256sum "$vsix" sbom.cdx.json > checksums.sha256
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: gh release upload "$RELEASE_TAG" ./*.vsix sbom.cdx.json checksums.sha256 --repo "$GITHUB_REPOSITORY" --clobber
 
       - name: Verify release assets
         env:
