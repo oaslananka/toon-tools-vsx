@@ -22,6 +22,7 @@ import { createStatusBarItem } from './ui/statusBar';
 import { openTableViewerCommand } from './ui/tableViewer';
 import { ToonExplorerProvider } from './ui/toonExplorer';
 import { registerAll } from './utils/disposable';
+import { trustedWorkspaceCommand } from './utils/workspaceTrust';
 
 export function activate(context: vscode.ExtensionContext): void {
   registerLanguageConfiguration(context);
@@ -56,15 +57,31 @@ export function activate(context: vscode.ExtensionContext): void {
       TOON_DOCUMENT_SELECTOR,
       new ToonDefinitionProvider()
     ),
-    vscode.commands.registerCommand('toon.convertJsonToToon', convertJsonToToonCommand),
-    vscode.commands.registerCommand('toon.convertToonToJson', convertToonToJsonCommand),
-    vscode.commands.registerCommand('toon.openJsonPreview', openJsonPreviewCommand),
-    vscode.commands.registerCommand('toon.openToonPreview', openToonPreviewCommand),
-    vscode.commands.registerCommand('toon.openTableViewer', () => openTableViewerCommand(context)),
-    vscode.commands.registerCommand('toon.analyzeSizeTokens', () =>
-      openSizeAnalyzerCommand(context)
+    vscode.commands.registerCommand(
+      'toon.convertJsonToToon',
+      trustedWorkspaceCommand(convertJsonToToonCommand)
     ),
-    vscode.commands.registerCommand('toon.exportCsv', exportCsvCommand),
+    vscode.commands.registerCommand(
+      'toon.convertToonToJson',
+      trustedWorkspaceCommand(convertToonToJsonCommand)
+    ),
+    vscode.commands.registerCommand(
+      'toon.openJsonPreview',
+      trustedWorkspaceCommand(openJsonPreviewCommand)
+    ),
+    vscode.commands.registerCommand(
+      'toon.openToonPreview',
+      trustedWorkspaceCommand(openToonPreviewCommand)
+    ),
+    vscode.commands.registerCommand(
+      'toon.openTableViewer',
+      trustedWorkspaceCommand(() => openTableViewerCommand(context))
+    ),
+    vscode.commands.registerCommand(
+      'toon.analyzeSizeTokens',
+      trustedWorkspaceCommand(() => openSizeAnalyzerCommand(context))
+    ),
+    vscode.commands.registerCommand('toon.exportCsv', trustedWorkspaceCommand(exportCsvCommand)),
     vscode.window.registerTreeDataProvider('toonToolsView', new ToonExplorerProvider())
   );
 

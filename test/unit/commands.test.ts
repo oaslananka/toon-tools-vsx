@@ -7,6 +7,7 @@ import { openJsonPreviewCommand, openToonPreviewCommand } from '../../src/conver
 import { activate } from '../../src/extension';
 import { openSizeAnalyzerCommand } from '../../src/ui/sizeAnalyzer';
 import { openTableViewerCommand } from '../../src/ui/tableViewer';
+import { TRUSTED_WORKSPACE_REQUIRED_MESSAGE } from '../../src/utils/workspaceTrust';
 import {
   __getRegisteredCommand,
   __getRegisteredCommandIds,
@@ -30,6 +31,7 @@ describe('extension command registration', () => {
     vi.clearAllMocks();
     __resetCommandRegistry();
     Object.assign(vscode.window, { activeTextEditor: undefined });
+    Object.assign(vscode.workspace, { isTrusted: true });
   });
 
   it('registers every contributed command with an executable handler', async () => {
@@ -43,6 +45,26 @@ describe('extension command registration', () => {
     }
     expect(vscode.commands.registerCommand).toHaveBeenCalledTimes(EXPECTED_COMMANDS.length);
   });
+
+  it('blocks trusted-workspace commands when the workspace is untrusted', async () => {
+    Object.assign(vscode.workspace, { isTrusted: false });
+    const context = createContext();
+
+    activate(context);
+
+    for (const command of EXPECTED_COMMANDS) {
+      await __getRegisteredCommand(command)?.();
+    }
+
+    expect(vscode.window.showWarningMessage).toHaveBeenCalledTimes(EXPECTED_COMMANDS.length);
+    expect(vscode.window.showWarningMessage).toHaveBeenCalledWith(
+      TRUSTED_WORKSPACE_REQUIRED_MESSAGE
+    );
+    expect(vscode.window.showErrorMessage).not.toHaveBeenCalled();
+    expect(vscode.workspace.openTextDocument).not.toHaveBeenCalled();
+    expect(vscode.window.createWebviewPanel).not.toHaveBeenCalled();
+    expect(vscode.workspace.fs.writeFile).not.toHaveBeenCalled();
+  });
 });
 
 describe('conversion and preview command outcomes', () => {
@@ -50,6 +72,7 @@ describe('conversion and preview command outcomes', () => {
     vi.clearAllMocks();
     configureVirtualDocumentOpen();
     Object.assign(vscode.window, { activeTextEditor: undefined });
+    Object.assign(vscode.workspace, { isTrusted: true });
   });
 
   it('converts active JSON content to a TOON virtual document', async () => {
@@ -153,6 +176,7 @@ describe('webview and export command outcomes', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     Object.assign(vscode.window, { activeTextEditor: undefined });
+    Object.assign(vscode.workspace, { isTrusted: true });
     (vscode.window.showSaveDialog as Mock).mockResolvedValue(undefined);
     (vscode.workspace.fs.writeFile as Mock).mockResolvedValue(undefined);
   });
