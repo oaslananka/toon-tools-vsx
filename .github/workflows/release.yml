@@ -233,7 +233,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag }}
-        run: pnpm run check:release-assets -- --tag "$RELEASE_TAG"
+        run: pnpm run check:release-assets --tag "$RELEASE_TAG"
 
       - name: Download release VSIX
         env:
