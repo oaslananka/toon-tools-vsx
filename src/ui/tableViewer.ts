@@ -4,8 +4,8 @@ import { parseToonBlocks } from '../parser/toonParser';
 import { createTableViewerHtml } from './tableViewerHtml';
 
 interface TableMessage {
-  command?: string;
-  blockName?: string;
+  command?: unknown;
+  blockName?: unknown;
 }
 
 export async function openTableViewerCommand(context: vscode.ExtensionContext): Promise<void> {
@@ -23,6 +23,7 @@ export async function openTableViewerCommand(context: vscode.ExtensionContext): 
       return;
     }
 
+    const allowedBlockNames = new Set(blocks.map((block) => block.name));
     const panel = vscode.window.createWebviewPanel(
       'toonTableViewer',
       'TOON Table Viewer',
@@ -35,31 +36,55 @@ export async function openTableViewerCommand(context: vscode.ExtensionContext): 
 
     panel.webview.html = createTableViewerHtml(panel.webview, context.extensionUri, blocks);
     context.subscriptions.push(
-      panel.webview.onDidReceiveMessage(async (message: TableMessage) => {
-        if (message.command !== 'exportCsv' || !message.blockName) {
+      panel.webview.onDidReceiveMessage(async (message: unknown) => {
+        const blockName = getExportBlockName(message, allowedBlockNames);
+        if (!blockName) {
           return;
         }
 
-        const csv = toonBlockToCsv(sourceText, message.blockName);
+        const csv = toonBlockToCsv(sourceText, blockName);
         if (!csv) {
-          vscode.window.showErrorMessage(`Block '${message.blockName}' not found.`);
+          vscode.window.showErrorMessage(`Block '${blockName}' not found.`);
           return;
         }
 
         const uri = await vscode.window.showSaveDialog({
           filters: { CSV: ['csv'] },
-          defaultUri: vscode.Uri.file(`${message.blockName}.csv`),
+          defaultUri: vscode.Uri.file(`${blockName}.csv`),
         });
         if (!uri) {
           return;
         }
 
         await vscode.workspace.fs.writeFile(uri, Buffer.from(csv, 'utf-8'));
-        vscode.window.showInformationMessage(`Exported '${message.blockName}' to ${uri.fsPath}`);
+        vscode.window.showInformationMessage(`Exported '${blockName}' to ${uri.fsPath}`);
       })
     );
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     vscode.window.showErrorMessage(`Failed to open TOON Table Viewer: ${message}`);
   }
+}
+
+function getExportBlockName(
+  message: unknown,
+  allowedBlockNames: ReadonlySet<string>
+): string | undefined {
+  if (!isTableMessage(message)) {
+    return undefined;
+  }
+
+  if (message.command !== 'exportCsv' || typeof message.blockName !== 'string') {
+    return undefined;
+  }
+
+  if (!allowedBlockNames.has(message.blockName)) {
+    return undefined;
+  }
+
+  return message.blockName;
+}
+
+function isTableMessage(message: unknown): message is TableMessage {
+  return typeof message === 'object' && message !== null && !Array.isArray(message);
 }
