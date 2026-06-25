@@ -4,6 +4,15 @@ This changelog is managed by release-please from Conventional Commits. Do not ma
 `Unreleased` section here; unreleased changes are represented by merged commits and the
 release-please pull request.
 
+## [1.0.5](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.4...oaslananka.toon-tools-vsx-v1.0.5) (2026-06-25)
+
+
+### Bug Fixes
+
+* **packaging:** forward package arguments safely ([#62](https://github.com/oaslananka/toon-tools-vsx/issues/62)) ([2c8e632](https://github.com/oaslananka/toon-tools-vsx/commit/2c8e6327f56668014b5b29210b93b76db24e8f5d))
+* **perf:** measure parser cold throughput ([#61](https://github.com/oaslananka/toon-tools-vsx/issues/61)) ([c3822e5](https://github.com/oaslananka/toon-tools-vsx/commit/c3822e5b17d6e5fce531e1a0317e218b0a49af4c))
+* **webview:** harden CSP ([#64](https://github.com/oaslananka/toon-tools-vsx/issues/64)) ([23b02c1](https://github.com/oaslananka/toon-tools-vsx/commit/23b02c1ae130fa6dd1cc6c791e4cc5e9ce735875))
+
 ## [1.0.4](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.3...oaslananka.toon-tools-vsx-v1.0.4) (2026-06-25)
 
 
