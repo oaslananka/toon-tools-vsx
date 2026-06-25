@@ -53,10 +53,92 @@ export function registerToonLinter(
       if (document.languageId === LANGUAGE_ID) {
         collection.delete(document.uri);
       }
+    }),
+    vscode.languages.registerCodeActionsProvider(LANGUAGE_ID, new ToonCodeActionProvider(), {
+      providedCodeActionKinds: [vscode.CodeActionKind.QuickFix],
     })
   );
 
   vscode.workspace.textDocuments.forEach(schedule);
+}
+
+export class ToonCodeActionProvider implements vscode.CodeActionProvider {
+  provideCodeActions(
+    document: vscode.TextDocument,
+    _range: vscode.Range,
+    context: vscode.CodeActionContext
+  ): vscode.CodeAction[] {
+    return createToonCodeActions(document, context.diagnostics);
+  }
+}
+
+export function createToonCodeActions(
+  document: vscode.TextDocument,
+  diagnostics: readonly vscode.Diagnostic[]
+): vscode.CodeAction[] {
+  const actions: vscode.CodeAction[] = [];
+
+  for (const diagnostic of diagnostics) {
+    const rowCountMatch = /^Row count mismatch\. Declared \d+, found (\d+)\.$/.exec(
+      diagnostic.message
+    );
+    if (rowCountMatch) {
+      const foundRows = rowCountMatch[1];
+      const line = document.lineAt(diagnostic.range.start.line).text;
+      const fixedLine = line.replace(/\[\d+\]/, `[${foundRows}]`);
+      if (fixedLine !== line) {
+        actions.push(
+          createReplaceLineAction(
+            document,
+            diagnostic,
+            `Update declared row count to ${foundRows}`,
+            fixedLine
+          )
+        );
+      }
+      continue;
+    }
+
+    const valueCountMatch = /^Expected (\d+) values, found (\d+)\.$/.exec(diagnostic.message);
+    if (valueCountMatch) {
+      const expectedValues = Number(valueCountMatch[1]);
+      const foundValues = Number(valueCountMatch[2]);
+      if (foundValues < expectedValues) {
+        const missingValues = expectedValues - foundValues;
+        const line = document.lineAt(diagnostic.range.start.line).text;
+        actions.push(
+          createReplaceLineAction(
+            document,
+            diagnostic,
+            `Pad row with ${missingValues} empty ${missingValues === 1 ? 'value' : 'values'}`,
+            `${line}${','.repeat(missingValues)}`
+          )
+        );
+      }
+    }
+  }
+
+  return actions;
+}
+
+function createReplaceLineAction(
+  document: vscode.TextDocument,
+  diagnostic: vscode.Diagnostic,
+  title: string,
+  newText: string
+): vscode.CodeAction {
+  const action = new vscode.CodeAction(title, vscode.CodeActionKind.QuickFix);
+  const line = document.lineAt(diagnostic.range.start.line).text;
+  const edit = new vscode.WorkspaceEdit();
+  edit.replace(
+    document.uri,
+    new vscode.Range(diagnostic.range.start.line, 0, diagnostic.range.start.line, line.length),
+    newText
+  );
+  action.diagnostics = [diagnostic];
+  action.edit = edit;
+  action.isPreferred = true;
+  return action;
 }
 
 function lintDocument(
