@@ -106,7 +106,8 @@ describe('validateToonBlocks', () => {
     expect(actions[0].kind).toBe(vscode.CodeActionKind.QuickFix);
     expect(actions[0].diagnostics).toEqual([diagnostic]);
     expect(actions[0].isPreferred).toBe(true);
-    expect(actions[0].edit?.edits).toEqual([
+    const edit = actions[0].edit as unknown as { edits: unknown[] };
+    expect(edit.edits).toEqual([
       {
         uri: document.uri,
         range: new vscode.Range(0, 0, 0, 13),
@@ -127,7 +128,8 @@ describe('validateToonBlocks', () => {
 
     expect(actions).toHaveLength(1);
     expect(actions[0].title).toBe('Pad row with 1 empty value');
-    expect(actions[0].edit?.edits).toEqual([
+    const edit = actions[0].edit as unknown as { edits: unknown[] };
+    expect(edit.edits).toEqual([
       {
         uri: document.uri,
         range: new vscode.Range(1, 0, 1, 9),
