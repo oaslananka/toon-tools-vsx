@@ -30,26 +30,41 @@ const sourceBytes = Buffer.byteLength(source, 'utf8');
 verifyParse(source);
 
 for (let index = 0; index < warmupIterations; index += 1) {
-  parseToonDocument(source);
+  parseToonDocument(sourceForIteration(source, 'warmup', index));
 }
 
-const durations = [];
+const coldDurations = [];
 for (let index = 0; index < measuredIterations; index += 1) {
+  const sourceText = sourceForIteration(source, 'cold', index);
   const start = performance.now();
-  const document = parseToonDocument(source);
-  durations.push(performance.now() - start);
+  const document = parseToonDocument(sourceText);
+  coldDurations.push(performance.now() - start);
   assertParsedDocument(document);
 }
 
-durations.sort((left, right) => left - right);
+const cachedDurations = [];
+const cachedSource = sourceForIteration(source, 'cached', 0);
+parseToonDocument(cachedSource);
+for (let index = 0; index < measuredIterations; index += 1) {
+  const start = performance.now();
+  const document = parseToonDocument(cachedSource);
+  cachedDurations.push(performance.now() - start);
+  assertParsedDocument(document);
+}
 
-const medianMs = percentile(durations, 0.5);
-const p95Ms = percentile(durations, 0.95);
+coldDurations.sort((left, right) => left - right);
+cachedDurations.sort((left, right) => left - right);
+
+const medianMs = percentile(coldDurations, 0.5);
+const p95Ms = percentile(coldDurations, 0.95);
+const cachedMedianMs = percentile(cachedDurations, 0.5);
+const cachedP95Ms = percentile(cachedDurations, 0.95);
 const rowsPerSecond = Math.round(PARSER_PERFORMANCE_FIXTURE_ROWS / (medianMs / 1000));
 
 console.log(
   [
     'Parser throughput:',
+    'mode=cold-parse',
     `rows=${PARSER_PERFORMANCE_FIXTURE_ROWS}`,
     `fields=${PARSER_PERFORMANCE_FIXTURE_FIELDS}`,
     `bytes=${sourceBytes}`,
@@ -58,6 +73,8 @@ console.log(
     `p95Ms=${p95Ms.toFixed(2)}`,
     `rowsPerSecond=${rowsPerSecond}`,
     `minimumRowsPerSecond=${minRowsPerSecond}`,
+    `cachedMedianMs=${cachedMedianMs.toFixed(4)}`,
+    `cachedP95Ms=${cachedP95Ms.toFixed(4)}`,
   ].join(' ')
 );
 
@@ -94,6 +111,10 @@ function assertParsedDocument(document) {
       `Expected ${PARSER_PERFORMANCE_FIXTURE_FIELDS} fields, parsed ${block.fields.length}.`
     );
   }
+}
+
+function sourceForIteration(sourceText, phase, index) {
+  return `${sourceText}\n# benchmark:${phase}:${index}`;
 }
 
 function percentile(values, ratio) {
