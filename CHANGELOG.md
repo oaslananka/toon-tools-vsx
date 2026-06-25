@@ -4,6 +4,13 @@ This changelog is managed by release-please from Conventional Commits. Do not ma
 `Unreleased` section here; unreleased changes are represented by merged commits and the
 release-please pull request.
 
+## [1.1.0](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.5...oaslananka.toon-tools-vsx-v1.1.0) (2026-06-25)
+
+
+### Features
+
+* linter actions ([#67](https://github.com/oaslananka/toon-tools-vsx/issues/67)) ([8dac5ea](https://github.com/oaslananka/toon-tools-vsx/commit/8dac5ea94873d263ae6606fc1948b2feda601fe9))
+
 ## [1.0.5](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.4...oaslananka.toon-tools-vsx-v1.0.5) (2026-06-25)
 
 
