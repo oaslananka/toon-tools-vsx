@@ -61,8 +61,10 @@ describe('table viewer HTML builder', () => {
     });
 
     expect(html).toContain(
-      "default-src 'none'; img-src vscode-webview://test https:; style-src vscode-webview://test; script-src 'nonce-test-nonce' vscode-webview://test;"
+      "default-src 'none'; img-src vscode-webview://test; style-src vscode-webview://test; script-src 'nonce-test-nonce'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
     );
+    expect(html).not.toContain('img-src vscode-webview://test https:');
+    expect(html).not.toContain("script-src 'nonce-test-nonce' vscode-webview://test");
     expect(html).toContain('<link rel="stylesheet" href="webview:/reset.css" />');
     expect(html).toContain('<link rel="stylesheet" href="webview:/tableViewer.css" />');
     expect(html).toContain(
@@ -87,6 +89,9 @@ describe('table viewer HTML builder', () => {
     );
 
     expect(html).toContain("script-src 'nonce-");
+    expect(html).toContain("base-uri 'none'");
+    expect(html).toContain("form-action 'none'");
+    expect(html).toContain("frame-ancestors 'none'");
     expect(html).toContain('webview:/extension/media/reset.css');
     expect(html).toContain('webview:/extension/media/tableViewer.css');
     expect(html).toContain('webview:/extension/media/tableViewer.js');
