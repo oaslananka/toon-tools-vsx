@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { toonToJsonSimple } from '../convert/codec';
-import { generateNonce } from '../utils/nonce';
 
 export async function openSizeAnalyzerCommand(context: vscode.ExtensionContext): Promise<void> {
   const editor = vscode.window.activeTextEditor;
@@ -67,7 +66,6 @@ function getHtml(
   context: vscode.ExtensionContext,
   stats: AnalyzerStats
 ): string {
-  const nonce = generateNonce();
   const resetUri = webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, 'media', 'reset.css')
   );
@@ -82,7 +80,7 @@ function getHtml(
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';" />
 <link rel="stylesheet" href="${resetUri}" />
 <link rel="stylesheet" href="${styleUri}" />
 <title>TOON Size Analyzer</title>
