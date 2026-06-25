@@ -4,6 +4,16 @@ This changelog is managed by release-please from Conventional Commits. Do not ma
 `Unreleased` section here; unreleased changes are represented by merged commits and the
 release-please pull request.
 
+## [1.0.4](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.3...oaslananka.toon-tools-vsx-v1.0.4) (2026-06-25)
+
+
+### Bug Fixes
+
+* **release:** allow existing release asset upload ([#56](https://github.com/oaslananka/toon-tools-vsx/issues/56)) ([60a525f](https://github.com/oaslananka/toon-tools-vsx/commit/60a525f1b14f51468ebd49ddb7e5471718b0c111))
+* **release:** pass release asset tag argument correctly ([d740ca9](https://github.com/oaslananka/toon-tools-vsx/commit/d740ca915cb4699f9417c638ff7ddd3786d4bfd1))
+* **release:** rebuild assets for existing release publish ([893a6f1](https://github.com/oaslananka/toon-tools-vsx/commit/893a6f189214fc2d11b969eaa02c755cd3448382))
+* **trust:** guard commands in untrusted workspaces ([6361919](https://github.com/oaslananka/toon-tools-vsx/commit/6361919b2edb8bc8230db64ba726b6a09e95d3d4))
+
 ## [1.0.3](https://github.com/oaslananka/toon-tools-vsx/compare/oaslananka.toon-tools-vsx-v1.0.2...oaslananka.toon-tools-vsx-v1.0.3) (2026-06-24)
 
 
