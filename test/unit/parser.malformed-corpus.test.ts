@@ -78,7 +78,9 @@ describe('parser malformed corpus', () => {
   });
 
   it('preserves empty row values from leading, middle, and trailing commas', () => {
-    const [block] = parseToonBlocks('users[3]{id,name,note}:\n  ,Alice,missing id\n  2,,pending\n  3,Bob,');
+    const [block] = parseToonBlocks(
+      'users[3]{id,name,note}:\n  ,Alice,missing id\n  2,,pending\n  3,Bob,'
+    );
 
     expect(block.rows.map((row) => row.values)).toEqual([
       ['', 'Alice', 'missing id'],
