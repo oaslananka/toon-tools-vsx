@@ -265,7 +265,7 @@
     "test:perf": "pnpm run compile-tests && node scripts/check-parser-performance.js",
     "test:mutation": "stryker run",
     "test:integration": "pnpm run build && pnpm run compile-tests && node ./out/test/integration/runTest.js",
-    "package": "pnpm run build && vsce package --no-dependencies",
+    "package": "node scripts/package-extension.js",
     "package:ls": "vsce ls --tree --no-dependencies"
   },
   "lint-staged": {
