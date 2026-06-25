@@ -76,7 +76,7 @@ export function buildTableViewerHtml(options: TableViewerHtmlOptions): string {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${options.cspSource} https:; style-src ${options.cspSource}; script-src 'nonce-${options.nonce}' ${options.cspSource};" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${options.cspSource}; style-src ${options.cspSource}; script-src 'nonce-${options.nonce}'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';" />
 <link rel="stylesheet" href="${options.resources.reset}" />
 <link rel="stylesheet" href="${options.resources.style}" />
 <title>TOON Table Viewer</title>
