@@ -136,6 +136,7 @@ export const languages = {
   registerInlayHintsProvider: mockFn(() => createDisposable()),
   registerRenameProvider: mockFn(() => createDisposable()),
   registerDefinitionProvider: mockFn(() => createDisposable()),
+  registerCodeActionsProvider: mockFn(() => createDisposable()),
 };
 
 export const commands = {
@@ -154,6 +155,10 @@ export const DiagnosticSeverity = {
   Warning: 1,
   Information: 2,
   Hint: 3,
+};
+
+export const CodeActionKind = {
+  QuickFix: 'quickfix',
 };
 
 export const TreeItemCollapsibleState = {
@@ -263,6 +268,17 @@ export class TextEdit {
   static replace(range: Range, newText: string): TextEdit {
     return new TextEdit(range, newText);
   }
+}
+
+export class CodeAction {
+  diagnostics?: Diagnostic[];
+  edit?: WorkspaceEdit;
+  isPreferred?: boolean;
+
+  constructor(
+    public readonly title: string,
+    public readonly kind?: string
+  ) {}
 }
 
 export class WorkspaceEdit {
@@ -409,3 +425,5 @@ export type HoverProvider = unknown;
 export type InlayHintsProvider = unknown;
 export type RenameProvider = unknown;
 export type DefinitionProvider = unknown;
+export type CodeActionProvider = unknown;
+export type CodeActionContext = { diagnostics: Diagnostic[] };
