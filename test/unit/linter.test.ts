@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { vi } from 'vitest';
 import {
+  createToonCodeActions,
   mapSeverity,
   registerToonLinter,
   validateToonBlocks,
@@ -88,6 +89,62 @@ describe('validateToonBlocks', () => {
     expect(mapSeverity('error')).toBe(vscode.DiagnosticSeverity.Error);
     expect(mapSeverity('warning')).toBe(vscode.DiagnosticSeverity.Warning);
     expect(mapSeverity('info')).toBe(vscode.DiagnosticSeverity.Information);
+  });
+
+  it('creates a quick fix for row count mismatches', () => {
+    const document = createDocument('users[2]{id}:\n  1');
+    const diagnostic = new vscode.Diagnostic(
+      new vscode.Range(0, 0, 0, 13),
+      'Row count mismatch. Declared 2, found 1.',
+      vscode.DiagnosticSeverity.Error
+    );
+
+    const actions = createToonCodeActions(document, [diagnostic]);
+
+    expect(actions).toHaveLength(1);
+    expect(actions[0].title).toBe('Update declared row count to 1');
+    expect(actions[0].kind).toBe(vscode.CodeActionKind.QuickFix);
+    expect(actions[0].diagnostics).toEqual([diagnostic]);
+    expect(actions[0].isPreferred).toBe(true);
+    expect(actions[0].edit?.edits).toEqual([
+      {
+        uri: document.uri,
+        range: new vscode.Range(0, 0, 0, 13),
+        newText: 'users[1]{id}:',
+      },
+    ]);
+  });
+
+  it('creates a quick fix for rows with missing trailing values', () => {
+    const document = createDocument('users[1]{id,name,note}:\n  1,Alice');
+    const diagnostic = new vscode.Diagnostic(
+      new vscode.Range(1, 2, 1, 9),
+      'Expected 3 values, found 2.',
+      vscode.DiagnosticSeverity.Error
+    );
+
+    const actions = createToonCodeActions(document, [diagnostic]);
+
+    expect(actions).toHaveLength(1);
+    expect(actions[0].title).toBe('Pad row with 1 empty value');
+    expect(actions[0].edit?.edits).toEqual([
+      {
+        uri: document.uri,
+        range: new vscode.Range(1, 0, 1, 9),
+        newText: '  1,Alice,',
+      },
+    ]);
+  });
+
+  it('does not create unsafe quick fixes for rows with too many values', () => {
+    const document = createDocument('users[1]{id}:\n  1,Alice');
+    const diagnostic = new vscode.Diagnostic(
+      new vscode.Range(1, 2, 1, 9),
+      'Expected 1 values, found 2.',
+      vscode.DiagnosticSeverity.Error
+    );
+
+    expect(createToonCodeActions(document, [diagnostic])).toEqual([]);
   });
 
   it('registers linter events and schedules initial TOON documents', () => {
