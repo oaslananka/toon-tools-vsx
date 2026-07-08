@@ -2,7 +2,7 @@
   "name": "toon-tools-vsx",
   "displayName": "TOON Tools VSX",
   "publisher": "oaslananka",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "TOON format support: syntax highlighting, formatter, linter, hover, inlay hints, rename, JSON-to-TOON conversion, table viewer, and token-size analyzer.",
   "icon": "images/toon-tools-icon.png",
   "license": "MIT",
