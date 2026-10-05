@@ -33,6 +33,7 @@ const requiredPaths = [
 
 const forbiddenPaths = new Set([
   'AGENTS.md',
+  'src/ui/AGENTS.md',
   '.env.example',
   '.release-please-manifest.json',
   '.gitignore',
