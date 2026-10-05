@@ -103,6 +103,10 @@ function parseFlatList(output) {
 }
 
 function isForbiddenPackagePath(entryPath) {
+  if (path.posix.basename(entryPath) === 'AGENTS.md') {
+    return true;
+  }
+
   if (forbiddenPaths.has(entryPath)) {
     return true;
   }
