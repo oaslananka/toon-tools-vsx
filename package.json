@@ -279,11 +279,11 @@
   },
   "pnpm": {
     "overrides": {
-      "brace-expansion": "5.0.7",
+      "brace-expansion": "5.0.11",
       "diff": "9.0.0",
-      "fast-uri": "3.1.5",
+      "fast-uri": "3.1.7",
       "ip-address": "10.3.1",
-      "js-yaml": "4.3.0",
+      "js-yaml": "4.3.2",
       "postcss": "8.5.18",
       "serialize-javascript": "7.0.5",
       "tmp": "^0.2.7",
@@ -291,7 +291,12 @@
       "form-data": "^4.0.6",
       "undici": "^7.29.0",
       "vite": "^8.0.16",
-      "linkify-it": "^5.0.1"
+      "linkify-it": "^5.0.1",
+      "nanoid": "3.3.18",
+      "browserslist": "4.28.7",
+      "basic-ftp": "6.2.1",
+      "source-map-js": "1.2.2",
+      "tar": "7.5.21"
     }
   },
   "devDependencies": {
