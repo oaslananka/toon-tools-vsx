@@ -62,10 +62,18 @@ Environment-limited checks (not related to code changes):
 
 ### Audit Results
 
-**Before:** 69 vulnerabilities (1 critical, 34 high, 30 moderate, 4 low)
-**After:** 2 vulnerabilities (1 high, 1 low) - both in `braces@3.0.3` (transitive from `@vscode/vsce`), **no patched version available upstream**
+**Before (Round 1):** 69 vulnerabilities (1 critical, 34 high, 30 moderate, 4 low)
+**After Round 1:** 2 vulnerabilities (1 high, 1 low) - both in `braces@3.0.3` (transitive from `@vscode/vsce`), **no patched version available upstream**
 
 The remaining `braces` vulnerability (GHSA-vfj7-8cjw-p6xm) has "Patched versions: <0.0.0" indicating no fix exists. This requires an upstream update to `@vscode/vsce` or its dependency chain.
+
+**Round 2 Fix:** Eliminated the remaining `braces@3.0.3` HIGH vulnerability by upgrading the dependency chain:
+
+- `@vscode/vsce`: 3.9.2 → 4.0.0 (switches from `secretlint`+`globby`+`fast-glob`+`micromatch`+`braces` to `@secretlint/*`+`tinyglobby`+`fdir`+`picomatch`)
+- `ts-loader`: 9.6.0 → 9.6.2 (switches from `micromatch` to `picomatch`)
+- Added pnpm override for `@vscode/vsce` to force `ovsx` to use the fixed version
+
+**After Round 2:** 1 vulnerability (1 low) - no HIGH or CRITICAL vulnerabilities remain
 
 ### Compliance
 
