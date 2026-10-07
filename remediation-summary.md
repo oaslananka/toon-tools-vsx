@@ -1,7 +1,9 @@
 ## Security Remediation Summary
 
 ### Issue
+
 Resolve 4 code scanning security findings for oaslananka/toon-tools-vsx:
+
 1. **BranchProtectionID: Branch-Protection** - GitHub repository setting (out of scope)
 2. **MaintainedID: Maintained** - GitHub repository setting/project activity (out of scope)
 3. **CodeReviewID: Code-Review** - GitHub repository setting (out of scope)
@@ -10,7 +12,9 @@ Resolve 4 code scanning security findings for oaslananka/toon-tools-vsx:
 ### Changes Made
 
 #### package.json
+
 Updated `pnpm.overrides` to force patched versions of all vulnerable transitive dependencies:
+
 - `fast-uri`: 3.1.2 → ^3.1.7 (fixed multiple high-severity DoS/SSRF vulnerabilities)
 - `undici`: ^7.28.0 → ^7.29.1 (fixed high-severity DoS/TLS bypass vulnerabilities)
 - `qs`: ^6.15.2 → ^6.16.0 (fixed moderate-severity DoS vulnerabilities)
@@ -27,14 +31,18 @@ Updated `pnpm.overrides` to force patched versions of all vulnerable transitive 
   - `markdown-it`: ^14.2.0 (fixed moderate-severity quadratic DoS)
 
 Updated devDependencies:
+
 - `vitest`: 4.1.8 → 4.1.11 (fixed moderate-severity path traversal)
 - `@vitest/coverage-v8`: 4.1.8 → 4.1.11 (matched vitest version)
 
 #### pnpm-lock.yaml
+
 Regenerated lockfile with all patched dependency versions.
 
 ### Verification
+
 All repository-native checks pass:
+
 - ✅ `pnpm run lint` - ESLint passes
 - ✅ `pnpm run typecheck` - TypeScript compiles without errors
 - ✅ `pnpm run test:unit` - 159 unit tests pass
@@ -48,16 +56,19 @@ All repository-native checks pass:
 - ✅ `pnpm run check:bundle-size` - Bundle size within 5.9% of baseline
 
 Environment-limited checks (not related to code changes):
+
 - ⚠️ `pnpm run test:integration` - Requires X server (headless environment limitation)
 - ⚠️ `pnpm run check:licenses` / `check:package-contents` - pnpm binary compatibility issue with Node 24
 
 ### Audit Results
+
 **Before:** 69 vulnerabilities (1 critical, 34 high, 30 moderate, 4 low)
 **After:** 2 vulnerabilities (1 high, 1 low) - both in `braces@3.0.3` (transitive from `@vscode/vsce`), **no patched version available upstream**
 
 The remaining `braces` vulnerability (GHSA-vfj7-8cjw-p6xm) has "Patched versions: <0.0.0" indicating no fix exists. This requires an upstream update to `@vscode/vsce` or its dependency chain.
 
 ### Compliance
+
 - ✅ Resolved VulnerabilitiesID finding with actual dependency fixes
 - ✅ No scanner suppression or severity threshold lowering
 - ✅ Preserved repository behavior and all passing tests
