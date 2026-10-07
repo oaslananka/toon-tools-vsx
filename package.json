@@ -296,7 +296,8 @@
       "tar": "^7.5.21",
       "browserslist": "^4.28.7",
       "basic-ftp": "^6.2.1",
-      "source-map-js": "^1.2.2"
+      "source-map-js": "^1.2.2",
+      "@vscode/vsce": "4.0.0"
     }
   },
   "devDependencies": {
@@ -314,15 +315,15 @@
     "@typescript-eslint/parser": "8.61.0",
     "@vitest/coverage-v8": "4.1.8",
     "@vscode/test-electron": "3.0.0",
-    "@vscode/vsce": "3.9.2",
+    "@vscode/vsce": "4.0.0",
     "eslint": "10.4.1",
     "fast-check": "4.8.0",
     "husky": "9.1.7",
     "lint-staged": "17.0.7",
     "mocha": "11.7.6",
-    "ovsx": "1.0.0",
+    "ovsx": "1.2.0",
     "prettier": "3.8.4",
-    "ts-loader": "9.6.0",
+    "ts-loader": "9.6.2",
     "typescript": "6.0.3",
     "vite": "^8.0.16",
     "vitest": "4.1.8",

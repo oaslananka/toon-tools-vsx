@@ -5,6 +5,7 @@ Successfully remediated the vulnerable `fast-uri` dependency graph in PR #83.
 ### Changes Made
 
 **package.json** - Updated `pnpm.overrides`:
+
 - `fast-uri`: `3.1.6` → `3.1.8` (fixes GHSA-58mr-gqgx-xq4g and GHSA-qw65-cvwx-89v3)
 - `undici`: `^7.28.0` → `^7.29.1` (fixes multiple HIGH vulnerabilities)
 - Added overrides for 9 additional actionable transitive vulnerabilities:
@@ -24,19 +25,19 @@ Successfully remediated the vulnerable `fast-uri` dependency graph in PR #83.
 
 All checks pass except one non-actionable HIGH vulnerability:
 
-| Check | Status |
-|-------|--------|
-| `audit:ci` | ⚠️ 1 HIGH (`braces@3.0.3` - **no patched version exists**, not actionable) |
-| `check:licenses` | ✅ Passed |
-| `format:check` | ✅ Passed |
-| `lint` | ✅ Passed |
-| `typecheck` | ✅ Passed |
-| `test:unit` | ✅ 159 tests passed, 96.64% coverage |
-| `test:perf` | ✅ Passed |
-| `compile-tests` | ✅ Passed |
-| `build` | ✅ Passed |
-| `package` | ✅ Passed (389.95 KB VSIX) |
-| `check:package-contents` | ✅ Passed |
-| `check:bundle-size` | ✅ Passed (49917 bytes, +5.9% delta) |
+| Check                    | Status                                                                     |
+| ------------------------ | -------------------------------------------------------------------------- |
+| `audit:ci`               | ⚠️ 1 HIGH (`braces@3.0.3` - **no patched version exists**, not actionable) |
+| `check:licenses`         | ✅ Passed                                                                  |
+| `format:check`           | ✅ Passed                                                                  |
+| `lint`                   | ✅ Passed                                                                  |
+| `typecheck`              | ✅ Passed                                                                  |
+| `test:unit`              | ✅ 159 tests passed, 96.64% coverage                                       |
+| `test:perf`              | ✅ Passed                                                                  |
+| `compile-tests`          | ✅ Passed                                                                  |
+| `build`                  | ✅ Passed                                                                  |
+| `package`                | ✅ Passed (389.95 KB VSIX)                                                 |
+| `check:package-contents` | ✅ Passed                                                                  |
+| `check:bundle-size`      | ✅ Passed (49917 bytes, +5.9% delta)                                       |
 
 The remaining `braces` vulnerability (GHSA-vfj7-8cjw-p6xm) has **no patched version available** (`Patched versions: <0.0.0`), making it non-actionable per the issue requirements. All originally reported `fast-uri` vulnerabilities and other actionable transitive HIGH findings have been resolved.
