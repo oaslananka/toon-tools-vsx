@@ -7,17 +7,95 @@
     ":separateMajorReleases"
   ],
   "timezone": "Europe/Istanbul",
-  "labels": ["type:upgrade"],
-  "enabledManagers": ["npm", "github-actions"],
+  "labels": [
+    "type:upgrade"
+  ],
+  "enabledManagers": [
+    "npm",
+    "github-actions"
+  ],
   "rangeStrategy": "pin",
   "packageRules": [
-    { "matchManagers": ["npm"], "rangeStrategy": "pin", "automerge": false },
     {
-      "matchPackageNames": ["@types/vscode"],
+      "description": "Delegate low-risk dependency merging to Mergify.",
+      "matchUpdateTypes": [
+        "patch",
+        "digest",
+        "pin"
+      ],
+      "automerge": false,
+      "addLabels": [
+        "automerge:enabled",
+        "risk:low"
+      ]
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "rangeStrategy": "pin",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "@types/vscode"
+      ],
       "allowedVersions": "<=1.99.0",
       "description": "Keep @types/vscode pinned until engines.vscode is intentionally raised."
     },
-    { "matchManagers": ["github-actions"], "groupName": "github-actions", "automerge": false }
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github-actions",
+      "automerge": false
+    },
+    {
+      "description": "Keep editor/runtime and test-toolchain compatibility changes review-required.",
+      "matchPackageNames": [
+        "@types/vscode",
+        "@types/node",
+        "typescript",
+        "vitest",
+        "@vscode/test-cli",
+        "@vscode/test-electron",
+        "@vscode/vsce",
+        "eslint"
+      ],
+      "automerge": false,
+      "addLabels": [
+        "requires-review",
+        "risk:medium"
+      ]
+    }
   ],
-  "lockFileMaintenance": { "enabled": true, "schedule": ["before 6am on monday"] }
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ],
+    "automerge": false,
+    "addLabels": [
+      "automerge:enabled",
+      "risk:low"
+    ]
+  },
+  "automerge": false,
+  "automergeType": "pr",
+  "platformAutomerge": false,
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 6,
+  "branchConcurrentLimit": 6,
+  "osvVulnerabilityAlerts": false,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "dependencies",
+      "security",
+      "risk:high",
+      "requires-review"
+    ],
+    "prCreation": "immediate",
+    "vulnerabilityFixStrategy": "highest"
+  }
 }
