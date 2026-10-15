@@ -7,46 +7,28 @@
     ":separateMajorReleases"
   ],
   "timezone": "Europe/Istanbul",
-  "labels": [
-    "type:upgrade"
-  ],
-  "enabledManagers": [
-    "npm",
-    "github-actions"
-  ],
+  "labels": ["type:upgrade"],
+  "enabledManagers": ["npm", "github-actions"],
   "rangeStrategy": "pin",
   "packageRules": [
     {
       "description": "Delegate low-risk dependency merging to Mergify.",
-      "matchUpdateTypes": [
-        "patch",
-        "digest",
-        "pin"
-      ],
+      "matchUpdateTypes": ["patch", "digest", "pin"],
       "automerge": false,
-      "addLabels": [
-        "automerge:enabled",
-        "risk:low"
-      ]
+      "addLabels": ["automerge:enabled", "risk:low"]
     },
     {
-      "matchManagers": [
-        "npm"
-      ],
+      "matchManagers": ["npm"],
       "rangeStrategy": "pin",
       "automerge": false
     },
     {
-      "matchPackageNames": [
-        "@types/vscode"
-      ],
+      "matchPackageNames": ["@types/vscode"],
       "allowedVersions": "<=1.99.0",
       "description": "Keep @types/vscode pinned until engines.vscode is intentionally raised."
     },
     {
-      "matchManagers": [
-        "github-actions"
-      ],
+      "matchManagers": ["github-actions"],
       "groupName": "github-actions",
       "automerge": false
     },
@@ -63,22 +45,14 @@
         "eslint"
       ],
       "automerge": false,
-      "addLabels": [
-        "requires-review",
-        "risk:medium"
-      ]
+      "addLabels": ["requires-review", "risk:medium"]
     }
   ],
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": [
-      "before 6am on monday"
-    ],
+    "schedule": ["before 6am on monday"],
     "automerge": false,
-    "addLabels": [
-      "automerge:enabled",
-      "risk:low"
-    ]
+    "addLabels": ["automerge:enabled", "risk:low"]
   },
   "automerge": false,
   "automergeType": "pr",
@@ -89,12 +63,7 @@
   "osvVulnerabilityAlerts": false,
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": [
-      "dependencies",
-      "security",
-      "risk:high",
-      "requires-review"
-    ],
+    "labels": ["dependencies", "security", "risk:high", "requires-review"],
     "prCreation": "immediate",
     "vulnerabilityFixStrategy": "highest"
   }
