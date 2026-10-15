@@ -302,8 +302,8 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "21.0.2",
-    "@commitlint/config-conventional": "21.0.2",
+    "@commitlint/cli": "21.2.3",
+    "@commitlint/config-conventional": "21.2.3",
     "@eslint/js": "10.0.1",
     "@go-task/cli": "3.51.1",
     "@stryker-mutator/core": "9.6.1",
