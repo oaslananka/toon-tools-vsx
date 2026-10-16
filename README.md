@@ -3,6 +3,7 @@
 [![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/oaslananka.toon-tools-vsx?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=oaslananka.toon-tools-vsx)
 [![Open VSX](https://img.shields.io/open-vsx/v/oaslananka/toon-tools-vsx?label=Open%20VSX)](https://open-vsx.org/extension/oaslananka/toon-tools-vsx)
 [![CI](https://github.com/oaslananka/toon-tools-vsx/actions/workflows/ci.yml/badge.svg)](https://github.com/oaslananka/toon-tools-vsx/actions/workflows/ci.yml)
+[![CodSpeed](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://app.codspeed.io/oaslananka/toon-tools-vsx?utm_source=badge)
 
 > Token-Oriented Object Notation support: syntax highlighting, formatting, linting,
 > intelligent editing, previews, table viewer, and dual-marketplace publishing.
@@ -138,6 +139,10 @@ pnpm run test:unit:coverage
 pnpm run build
 pnpm run package
 ```
+
+Performance benchmarks for the parser, formatter, linter, and converters live in `test/bench/`
+and run with `pnpm run bench` (Vitest bench). They are tracked continuously in CI with
+[CodSpeed](https://app.codspeed.io/oaslananka/toon-tools-vsx).
 
 Automation and scheduled repository checks are documented in
 [docs/automation.md](docs/automation.md).

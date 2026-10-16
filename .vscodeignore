@@ -46,6 +46,7 @@ dist/**/*.d.ts
 node_modules/**
 tsconfig*.json
 vitest.config.ts
+vitest.bench.config.mts
 eslint.config.cjs
 jest.config.js
 stryker.conf.json
