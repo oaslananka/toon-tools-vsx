@@ -263,6 +263,7 @@
     "test:unit:coverage": "vitest run --coverage",
     "test:unit:property": "vitest run test/unit/parser.property.test.ts --coverage.enabled=false",
     "test:perf": "pnpm run compile-tests && node scripts/check-parser-performance.js",
+    "bench": "vitest bench --run --config vitest.bench.config.mts",
     "test:mutation": "stryker run",
     "test:integration": "pnpm run build && pnpm run compile-tests && node ./out/test/integration/runTest.js",
     "package": "node scripts/package-extension.js",
@@ -302,6 +303,7 @@
     }
   },
   "devDependencies": {
+    "@codspeed/vitest-plugin": "6.0.1",
     "@commitlint/cli": "21.0.2",
     "@commitlint/config-conventional": "21.0.2",
     "@eslint/js": "10.0.1",
